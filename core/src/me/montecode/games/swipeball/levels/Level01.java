@@ -40,6 +40,17 @@ public class Level01 {
 		block2.createFixture(fd);
 		
 		
+		bd.position.set(new Vector2(w - 40 / PPM, (100 + 40) / PPM));
+		bd.type = BodyType.StaticBody;
+		
+		shape = new PolygonShape();
+		shape.setAsBox(100 / PPM, 100 / PPM);
+		fd.shape = shape;
+		
+		Body block3 = world.createBody(bd);
+		block3.createFixture(fd);
+		
+		
 		shape.dispose();
 		
 	}
