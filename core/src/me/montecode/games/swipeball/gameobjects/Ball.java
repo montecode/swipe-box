@@ -23,7 +23,7 @@ public class Ball extends Actor{
 		
 		bd.type = BodyType.DynamicBody;
 		
-		bd.position.set(new Vector2(30 / PPM, 400 / PPM));
+		bd.position.set(new Vector2(60 / PPM, 300 / PPM));
 		
 		CircleShape shape = new CircleShape();
 		shape.setRadius(10 / PPM);
@@ -51,6 +51,10 @@ public class Ball extends Actor{
 		else{ 
 			return true;
 		}
+	}
+	
+	public static float getXPosition(){
+		return ball.getPosition().x;
 	}
 	
 }

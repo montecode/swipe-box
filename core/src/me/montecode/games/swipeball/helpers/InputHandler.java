@@ -2,9 +2,11 @@ package me.montecode.games.swipeball.helpers;
 
 
 import me.montecode.games.swipeball.gameobjects.Ball;
+import me.montecode.games.swipeball.utils.GameVars;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 public class InputHandler implements InputProcessor{
@@ -22,20 +24,24 @@ public class InputHandler implements InputProcessor{
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
+		if(keycode == Keys.SPACE){
+			GameVars.currentLvl++;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
+		
+		
+		
 		return false;
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		firstTouch = new Vector2(screenX, screenY);
-		return false;
+		return true;
 	}
 
 	@Override
@@ -52,7 +58,7 @@ public class InputHandler implements InputProcessor{
 			Ball.setVelocity(delta);
 		}
 			
-		return false;
+		return true;
 	}
 
 	@Override
@@ -65,13 +71,13 @@ public class InputHandler implements InputProcessor{
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

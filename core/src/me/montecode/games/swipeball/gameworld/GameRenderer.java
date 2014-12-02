@@ -2,6 +2,7 @@ package me.montecode.games.swipeball.gameworld;
 
 import me.montecode.games.swipeball.gameobjects.Ball;
 import me.montecode.games.swipeball.gameobjects.Ground;
+import me.montecode.games.swipeball.helpers.InputHandler;
 import me.montecode.games.swipeball.levels.Level01;
 import me.montecode.games.swipeball.utils.GameConstants;
 
@@ -26,7 +27,7 @@ public class GameRenderer{
 	SpriteBatch batch;
 	ShapeRenderer shapeRenderer;
 	Box2DDebugRenderer debugRenderer;
-	OrthographicCamera cam, b2dcam;
+	OrthographicCamera b2dcam;
 	Array<Body> bodies;
 	float h, w;
 	World world;
@@ -34,19 +35,14 @@ public class GameRenderer{
 	Ground ground;
 	Level01 lvl1;
 	
-	public GameRenderer(World world){
+	public GameRenderer(World world, OrthographicCamera cam){
 		this.world = world;
 		shapeRenderer = new ShapeRenderer();
 		batch  = new SpriteBatch();
 		h = Gdx.graphics.getHeight();
 		w = Gdx.graphics.getWidth();
-		cam = new OrthographicCamera(w, h);
-        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-        cam.update();
         
-        b2dcam = new OrthographicCamera();
-        b2dcam.setToOrtho(false, GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
-        b2dcam.update();
+        b2dcam = cam;
         
 		ball = new Ball(world);
 		ground = new Ground();
@@ -65,23 +61,8 @@ public class GameRenderer{
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		/*
-		shapeRenderer.setProjectionMatrix(cam.combined);
-		
-		shapeRenderer.begin(ShapeType.Filled);
-		
-		world.getBodies(bodies);
-		
-		for(Body body : bodies) {
-			
-			shapeRenderer.setColor(new Color(1, 0, 0, 1));
-	        shapeRenderer.circle(body.getPosition().x, body.getPosition().y, GameConstants.BALL_RADIUS);
-		}
 		
 		
-		
-		shapeRenderer.end();
-		*/
 		debugRenderer.render(world, b2dcam.combined);
 		
 		

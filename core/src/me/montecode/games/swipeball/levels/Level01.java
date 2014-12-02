@@ -1,5 +1,6 @@
 package me.montecode.games.swipeball.levels;
 
+import me.montecode.games.swipeball.gameobjects.Box;
 import me.montecode.games.swipeball.utils.GameConstants;
 
 import com.badlogic.gdx.math.Vector2;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+
 import static me.montecode.games.swipeball.utils.GameConstants.PPM;
 
 public class Level01 {

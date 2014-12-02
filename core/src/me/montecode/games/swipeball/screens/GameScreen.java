@@ -1,5 +1,6 @@
 package me.montecode.games.swipeball.screens;
 
+import static me.montecode.games.swipeball.utils.GameConstants.PPM;
 import me.montecode.games.swipeball.gameobjects.Ball;
 import me.montecode.games.swipeball.gameworld.GameRenderer;
 import me.montecode.games.swipeball.gameworld.GameWorld;
@@ -21,20 +22,26 @@ public class GameScreen implements Screen{
 	Ball ball;
 	private float runTime;
 	InputHandler inputHandler;
+	GameWorld gameWorld;
+	OrthographicCamera b2dcam;
 	
 	public GameScreen(){
-		//world = new GameWorld();
 		world = new World(GameConstants.WORLD_GRAVITY, true);
+
+		gameWorld = new GameWorld(world);
 		inputHandler = new InputHandler();
 		Gdx.input.setInputProcessor(inputHandler);
-		renderer = new GameRenderer(world);
-		
+		b2dcam = new OrthographicCamera(GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
+        //b2dcam.setToOrtho(false, GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
+        b2dcam.position.set(GameConstants.GAME_WIDTH / PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);
+        b2dcam.update();
+        renderer = new GameRenderer(world, b2dcam);
 	}
 	
 	
 	@Override
 	public void render(float delta) {
-		world.step(delta, 6, 2);
+		gameWorld.update(delta, b2dcam);
 		renderer.render();
 	}
 
