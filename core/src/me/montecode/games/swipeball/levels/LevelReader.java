@@ -54,7 +54,5 @@ public class LevelReader {
 				e.printStackTrace();
 			}
 		}
-		
-		Ball ball = new Ball(world);
 	}
 }

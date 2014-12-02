@@ -44,11 +44,14 @@ public class GameRenderer{
         
         b2dcam = cam;
         
-		ball = new Ball(world);
-		ground = new Ground();
+        
+        
+        ball = new Ball(world);
+		/*ground = new Ground();
 		ground.createGround(world);
 		lvl1 = new Level01();
 		lvl1.createLvl(world);
+		*/
 		bodies = new Array<Body>(world.getBodyCount());
 		debugRenderer = new Box2DDebugRenderer();
 		

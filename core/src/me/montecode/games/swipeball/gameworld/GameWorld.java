@@ -36,27 +36,19 @@ public class GameWorld{
 		world.step(delta, 6, 2);
 		
 		if(Ball.getXPosition() > gw / PPM && isFirstTime){
-			GameVars.currentLvl = 3;
+			GameVars.currentLvl = 2;
 			isFirstTime = false;
 		}
 		switch(GameVars.currentLvl){
 			case 1:
-				
-				break;
-			case 2:
-				cam.position.set((gw / 2 + gw) / PPM , gh / 2 / PPM, 0);
-				cam.update();
-				Level02.createLvl(world);
-				GameVars.currentLvl = 0;
-				break;
-				
-			case 3:
+				/*
 				world.getBodies(bodies);
 				for(Body body : bodies){
 					world.destroyBody(body);
 				}
-				
+				*/
 				lvlReader.readLevel(file);
+				GameVars.currentLvl = 2;
 				break;
 			default:
 				
