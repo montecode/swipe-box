@@ -1,7 +1,6 @@
 package me.montecode.games.swipeball.gameworld;
 
 import me.montecode.games.swipeball.gameobjects.Ball;
-import me.montecode.games.swipeball.levels.Level02;
 import me.montecode.games.swipeball.levels.LevelReader;
 import me.montecode.games.swipeball.utils.GameConstants;
 import me.montecode.games.swipeball.utils.GameVars;
@@ -21,24 +20,19 @@ public class GameWorld{
 	float gh = GameConstants.GAME_HEIGHT;
 	boolean isFirstTime = true;
 	LevelReader lvlReader;
-	String file;
 	World world;
 	Array <Body> bodies = new Array();
 	
 	public GameWorld(World world){
 		this.world = world;
-		file = "C:\\Users\\pc\\Documents\\SwipeBall\\android\\assets\\lvl03.txt";
 		lvlReader = new LevelReader(world);
 	}
 	
 	
 	public void update(float delta, OrthographicCamera cam){
 		world.step(delta, 6, 2);
-		
-		if(Ball.getXPosition() > gw / PPM && isFirstTime){
-			GameVars.currentLvl = 2;
-			isFirstTime = false;
-		}
+		cam.position.x = Ball.getXPosition() + cam.viewportWidth / 2 - 50 / PPM;
+		cam.update();
 		switch(GameVars.currentLvl){
 			case 1:
 				/*
@@ -47,8 +41,8 @@ public class GameWorld{
 					world.destroyBody(body);
 				}
 				*/
-				lvlReader.readLevel(file);
-				GameVars.currentLvl = 2;
+				lvlReader.readLevel(Gdx.files.internal("lvl01.txt").reader());
+				GameVars.currentLvl = 0;
 				break;
 			default:
 				

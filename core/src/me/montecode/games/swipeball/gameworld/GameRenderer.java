@@ -3,7 +3,6 @@ package me.montecode.games.swipeball.gameworld;
 import me.montecode.games.swipeball.gameobjects.Ball;
 import me.montecode.games.swipeball.gameobjects.Ground;
 import me.montecode.games.swipeball.helpers.InputHandler;
-import me.montecode.games.swipeball.levels.Level01;
 import me.montecode.games.swipeball.utils.GameConstants;
 
 import com.badlogic.gdx.Gdx;
@@ -32,8 +31,6 @@ public class GameRenderer{
 	float h, w;
 	World world;
 	Ball ball;
-	Ground ground;
-	Level01 lvl1;
 	
 	public GameRenderer(World world, OrthographicCamera cam){
 		this.world = world;
@@ -47,11 +44,6 @@ public class GameRenderer{
         
         
         ball = new Ball(world);
-		/*ground = new Ground();
-		ground.createGround(world);
-		lvl1 = new Level01();
-		lvl1.createLvl(world);
-		*/
 		bodies = new Array<Body>(world.getBodyCount());
 		debugRenderer = new Box2DDebugRenderer();
 		

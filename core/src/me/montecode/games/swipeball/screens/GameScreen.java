@@ -32,7 +32,6 @@ public class GameScreen implements Screen{
 		inputHandler = new InputHandler();
 		Gdx.input.setInputProcessor(inputHandler);
 		b2dcam = new OrthographicCamera(GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
-        //b2dcam.setToOrtho(false, GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
         b2dcam.position.set(GameConstants.GAME_WIDTH / PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);
         b2dcam.update();
         renderer = new GameRenderer(world, b2dcam);

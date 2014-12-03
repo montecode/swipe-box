@@ -3,6 +3,7 @@ package me.montecode.games.swipeball.levels;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -23,10 +24,10 @@ public class LevelReader {
 	
 	
 	
-	public static void readLevel(String file){
+	public static void readLevel(Reader reader){
 		BufferedReader br = null;
 		try{
-			br = new BufferedReader(new FileReader(file));
+			br = new BufferedReader(reader);
 			String line;
 			int lineNumber = 1;
 			float yPosition = 0;

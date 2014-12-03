@@ -57,4 +57,7 @@ public class Ball extends Actor{
 		return ball.getPosition().x;
 	}
 	
+	public static float getYPosition(){
+		return ball.getPosition().y;
+	}
 }
