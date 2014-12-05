@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import me.montecode.games.swipeball.gameobjects.Ball;
 import me.montecode.games.swipeball.gameobjects.Box;
+import me.montecode.games.swipeball.gameobjects.Finish;
 import me.montecode.games.swipeball.utils.GameConstants;
 
 public class LevelReader {
@@ -40,6 +41,9 @@ public class LevelReader {
 					if(chars[i] == 'X'){
 						//create box
 						Box box = new Box(world, new Vector2(xPosition, yPosition), 20, 20);
+					}
+					else if(chars[i] == 'F'){
+						Finish finish = new Finish(world, new Vector2(xPosition, yPosition), 20, 20);
 					}
 				}
 				lineNumber++;

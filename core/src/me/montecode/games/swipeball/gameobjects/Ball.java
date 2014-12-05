@@ -35,7 +35,7 @@ public class Ball extends Actor{
 		
 		ball = world.createBody(bd);
 		ball.createFixture(fd);
-		
+		ball.setUserData("ball");
 		shape.dispose();
 	}
 	
@@ -60,4 +60,9 @@ public class Ball extends Actor{
 	public static float getYPosition(){
 		return ball.getPosition().y;
 	}
+	
+	public static void setPosition(Vector2 position){
+		ball.setTransform(position, 0);
+	}
+	
 }

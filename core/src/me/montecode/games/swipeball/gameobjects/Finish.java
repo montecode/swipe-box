@@ -11,13 +11,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
-public class Box{
-	
+public class Finish {
+
 	World world;
 	Vector2 position;
-	Body block;
+	Body finish;
 	
-	public Box(World world, Vector2 position, float width, float height) {
+	public Finish(World world, Vector2 position, float width, float height ){
 		this.world = world;
 		this.position = position;
 		
@@ -29,15 +29,20 @@ public class Box{
 		bd.position.set(new Vector2(position.x / PPM, position.y / PPM));
 		bd.type = BodyType.StaticBody;
 		
+		//fd.filter.maskBits = 4;
+		
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(width / PPM, height / PPM);
 		fd.shape = shape;
 		
-		block = world.createBody(bd);
-		block.createFixture(fd);
-		block.setUserData("block");
+		
+		
+		finish = world.createBody(bd);
+		finish.createFixture(fd);
+		finish.setUserData("finish");
+		
 	}
-
+	
 	
 	
 }
