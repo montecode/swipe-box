@@ -40,16 +40,11 @@ public class GameRenderer{
 		w = Gdx.graphics.getWidth();
         
         b2dcam = cam;
-        
-        
-        
+                
         ball = new Ball(world);
 		bodies = new Array<Body>(world.getBodyCount());
 		debugRenderer = new Box2DDebugRenderer();
-		
-		
-		
-		
+	
 	}
 	
 	public void render(){

@@ -27,21 +27,19 @@ public class GameWorld{
 	boolean isFirstTime = true;
 	LevelReader lvlReader;
 	World world;
-	Array <Body> bodies = new Array();
 	ContactListener listener = new ContactListener(){
 		@Override
 		public void beginContact(Contact contact) {
 			Body a = contact.getFixtureA().getBody();
 	        Body b = contact.getFixtureB().getBody();
-	        Gdx.app.log("a", a.getUserData() + "");
-	        Gdx.app.log("b", b.getUserData() + "");
 	        
 	        if((a.getUserData().equals("finish") && b.getUserData().equals("ball")) ||
-	        	(a.getUserData().equals("ball") && b.getUserData().equals("finish"))){
-	        	
+	        	(a.getUserData().equals("ball") && b.getUserData().equals("finish"))){	        	
 	        	GameVars.currentLvl = GameVars.lastLvl + 1;
-	        	
-	        	
+	        }
+	        else if((a.getUserData().equals("restart") && b.getUserData().equals("ball")) ||
+		        	(a.getUserData().equals("ball") && b.getUserData().equals("restart"))){
+	        	//reset ball position
 	        }
 			
 		}
@@ -68,6 +66,7 @@ public class GameWorld{
 		}
 	};
 	
+	
 	public GameWorld(World world){
 		this.world = world;
 		lvlReader = new LevelReader(world);
@@ -86,17 +85,20 @@ public class GameWorld{
 				GameVars.lastLvl = 1;
 				break;
 			case 2:
-				world.getBodies(bodies);
-				for(Body body : bodies){
-					if(!body.getUserData().equals("ball")){
-						world.destroyBody(body);
-					}
-				}
+				lvlReader.clearLevel();
 				Ball.setVelocity(new Vector2(0, 0));
 				Ball.setPosition(new Vector2(GameConstants.BALL_X / PPM, GameConstants.BALL_Y / PPM));
 				lvlReader.readLevel(Gdx.files.internal("lvl02.txt").reader());
 				GameVars.currentLvl = 0;
 				GameVars.lastLvl = 2;
+				break;
+			case 3:
+				lvlReader.clearLevel();
+				Ball.setVelocity(new Vector2(0, 0));
+				Ball.setPosition(new Vector2(GameConstants.BALL_X / PPM, GameConstants.BALL_Y / PPM));
+				lvlReader.readLevel(Gdx.files.internal("lvl03.txt").reader());
+				GameVars.currentLvl = 0;
+				GameVars.lastLvl = 3;
 				break;
 			default:
 				

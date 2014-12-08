@@ -11,13 +11,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
-public class LittleBox{
-
+public class Restart {
+	
 	World world;
 	Vector2 position;
-	Body block;
+	Body restart;
 	
-	public LittleBox(World world, Vector2 position, float width, float height) {
+	public Restart(World world, Vector2 position, float width, float height ){
 		this.world = world;
 		this.position = position;
 		
@@ -26,20 +26,20 @@ public class LittleBox{
 		
 		BodyDef bd = new BodyDef();
 		FixtureDef fd = new FixtureDef();
-		
-		bd.type = BodyType.DynamicBody;
-		
 		bd.position.set(new Vector2(position.x / PPM, position.y / PPM));
+		bd.type = BodyType.StaticBody;
+		
 		
 		
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(width / PPM, height / PPM);
 		fd.shape = shape;
 		
-		block = world.createBody(bd);
-		block.createFixture(fd);
-		block.setUserData("littleBox");
-		shape.dispose();
+		
+		
+		restart = world.createBody(bd);
+		restart.createFixture(fd);
+		restart.setUserData("restart");
+	
 	}
-
 }

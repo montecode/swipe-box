@@ -12,7 +12,7 @@ public class GameConstants {
 	public final static Vector2 WORLD_GRAVITY = new Vector2(0, -9.8f);
 	
 	public final static float BALL_RADIUS = 20;
-	public final static float BALL_X = 20;
-	public final static float BALL_Y = GAME_HEIGHT / 2;
+	public final static float BALL_X = 60;
+	public final static float BALL_Y = 300;
 	
 }
