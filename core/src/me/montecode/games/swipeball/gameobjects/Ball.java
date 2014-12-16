@@ -2,6 +2,7 @@ package me.montecode.games.swipeball.gameobjects;
 
 import static me.montecode.games.swipeball.utils.GameConstants.PPM;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -15,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Ball extends Actor{
 	
 	static Body ball;
-	
+	static int jumpNumber = 0;
 	
 	public Ball(World world){
 		BodyDef bd = new BodyDef();
@@ -25,13 +26,17 @@ public class Ball extends Actor{
 		
 		bd.position.set(new Vector2(60 / PPM, 300 / PPM));
 		
-		CircleShape shape = new CircleShape();
-		shape.setRadius(10 / PPM);
-		
+		//CircleShape shape = new CircleShape();
+		PolygonShape shape = new PolygonShape();
+		//shape.setRadius(10 / PPM);
+	    shape.setAsBox(10 / PPM, 10 / PPM);
+		//fd.density = 10;
 		fd.shape = shape;
 		fd.restitution = 0.3f;
-		
-		
+		fd.density = 10;
+		fd.filter.maskBits = 4;
+		fd.filter.categoryBits = 6 | 8 | 16;
+		bd.linearDamping = 1;
 		
 		ball = world.createBody(bd);
 		ball.createFixture(fd);
@@ -63,6 +68,15 @@ public class Ball extends Actor{
 	
 	public static void setPosition(Vector2 position){
 		ball.setTransform(position, 0);
+	}
+	
+	public static int getJumpNumber(){
+		return jumpNumber;
+	}
+	
+	public static void setJumpNumber(int number){
+		jumpNumber = number;
+		Gdx.app.log("", jumpNumber + "");
 	}
 	
 }

@@ -35,7 +35,8 @@ public class Restart {
 		shape.setAsBox(width / PPM, height / PPM);
 		fd.shape = shape;
 		
-		
+		fd.filter.categoryBits = 6;
+		fd.filter.maskBits = 8;
 		
 		restart = world.createBody(bd);
 		restart.createFixture(fd);

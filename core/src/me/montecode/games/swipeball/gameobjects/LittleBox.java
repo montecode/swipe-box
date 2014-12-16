@@ -35,6 +35,10 @@ public class LittleBox{
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(width / PPM, height / PPM);
 		fd.shape = shape;
+		fd.density = 10;
+		
+		fd.filter.maskBits = 8;
+		fd.filter.categoryBits = 6 | 4;
 		
 		block = world.createBody(bd);
 		block.createFixture(fd);

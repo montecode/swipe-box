@@ -17,7 +17,7 @@ public class Box{
 	Vector2 position;
 	Body block;
 	
-	public Box(World world, Vector2 position, float width, float height) {
+	public Box(World world, Vector2 position, float width, float height, int number) {
 		this.world = world;
 		this.position = position;
 		
@@ -33,9 +33,12 @@ public class Box{
 		shape.setAsBox(width / PPM, height / PPM);
 		fd.shape = shape;
 		
+		fd.filter.maskBits = 6;
+		fd.filter.categoryBits = 8 | 4;
+		
 		block = world.createBody(bd);
 		block.createFixture(fd);
-		block.setUserData("block");
+		block.setUserData("block" + number);
 	}
 
 	

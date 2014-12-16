@@ -19,7 +19,7 @@ import me.montecode.games.swipeball.utils.GameConstants;
 
 public class LevelReader {
 	//Translate txt file to lvl
-	//X - box
+	//X - box 
 	static World world;
 	static Array <Body> bodies = new Array();
 	
@@ -53,7 +53,7 @@ public class LevelReader {
 					xPosition = i * 40 + 20;
 					if(chars[i] == 'X'){
 						//create box
-						Box box = new Box(world, new Vector2(xPosition, yPosition), 20, 20);
+						//Box box = new Box(world, new Vector2(xPosition, yPosition), 20, 20);
 					}
 					else if(chars[i] == 'F'){
 						Finish finish = new Finish(world, new Vector2(xPosition, yPosition), 20, 20);
@@ -64,6 +64,9 @@ public class LevelReader {
 					else if(chars[i] == 'R'){
 						//Restar
 						Restart restart = new Restart(world, new Vector2(xPosition, yPosition), 20, 20);
+					}
+					else if(chars[i] == 'B'){
+						LittleBox bridge = new LittleBox(world, new Vector2(xPosition, yPosition + 20 * 11), 20, 20 * 10);
 					}
 				}
 				lineNumber++;

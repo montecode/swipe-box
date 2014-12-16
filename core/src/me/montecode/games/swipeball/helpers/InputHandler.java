@@ -14,7 +14,7 @@ public class InputHandler implements InputProcessor{
 	
 	private Vector2 lastTouch = new Vector2();
 	private Vector2 delta, newTouch, firstTouch;
-	private float scale = 3;
+	private float scale = 5;
 	
 	@Override
 	public boolean keyDown(int keycode) {
@@ -24,8 +24,11 @@ public class InputHandler implements InputProcessor{
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if(keycode == Keys.SPACE){
-			GameVars.currentLvl++;
+		if(keycode == Keys.F1){
+			GameVars.currentLvl = GameVars.lastLvl + 1;
+		}
+		else if(keycode == Keys.F2){
+			GameVars.currentLvl = GameVars.lastLvl -  1;
 		}
 		return false;
 	}
@@ -48,14 +51,15 @@ public class InputHandler implements InputProcessor{
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		firstTouch.set(firstTouch.x / scale, firstTouch.y / scale);
 		delta = new Vector2(lastTouch.x / scale, lastTouch.y / scale).cpy().sub(firstTouch);
-		delta.limit(20);
+		delta.limit(40);
 		
-		if(delta.y > 0){
+		if(delta.y > 0 || delta.x < 0 || (delta.y < 0 && delta.x == 0)){
 			delta.y = 0;
 			delta.x = 0;
 		}
 		if(!Ball.isFlying()){
 			Ball.setVelocity(delta);
+			Ball.setJumpNumber(Ball.getJumpNumber() + 1);
 		}
 			
 		return true;

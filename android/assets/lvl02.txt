@@ -4,7 +4,7 @@ X                                FF
 X                                FF
 X              XXXXXX    XXXXX    F  
 X       X  X                    X
-X       XXXX                    X 
-X               XXX             X
-X              XXXX             X
+X       XXXX              S     X 
+X               XXX       S     X
+X              XXXX       S     X
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

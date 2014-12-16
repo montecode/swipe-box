@@ -29,7 +29,9 @@ public class Finish {
 		bd.position.set(new Vector2(position.x / PPM, position.y / PPM));
 		bd.type = BodyType.StaticBody;
 		
-		//fd.filter.maskBits = 4;
+
+		fd.filter.maskBits = 16;
+		fd.filter.categoryBits = 4;
 		
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(width / PPM, height / PPM);
