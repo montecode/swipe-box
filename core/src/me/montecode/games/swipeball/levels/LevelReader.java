@@ -27,7 +27,7 @@ public class LevelReader {
 		this.world = world;
 	}
 	
-	public void clearLevel(){
+	public static void clearLevel(){
 		world.getBodies(bodies);
 		for(Body body : bodies){
 			if(!body.getUserData().equals("ball")){

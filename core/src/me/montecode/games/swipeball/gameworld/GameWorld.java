@@ -29,7 +29,7 @@ public class GameWorld{
 	boolean isFirstTime = true;
 	boolean isRestarted = false;
 	boolean isTimeForGenerate = false;
-	int nextBlock = 1;
+	static int nextBlock = 1;
 	LevelReader lvlReader;
 	World world;
 	ContactListener listener = new ContactListener(){
@@ -89,11 +89,7 @@ public class GameWorld{
 	
 	public void update(float delta, OrthographicCamera cam){
 		world.step(delta, 6, 2);
-		if(isRestarted){
-			Ball.setPosition(GameVars.ballPosition);
-			isRestarted = false;
-			Ball.setVelocity(Vector2.Zero);
-		}
+		
 		if(isTimeForGenerate){
 			GenerateLevel.generate();
 			isTimeForGenerate = false;
@@ -102,44 +98,13 @@ public class GameWorld{
 			cam.position.x = Ball.getXPosition() + cam.viewportWidth / 2 - 20 / PPM;
 			cam.update();
 		}
+		
 		switch(GameVars.currentLvl){
-			case 1:
-				lvlReader.readLevel(Gdx.files.internal("lvl01.txt").reader());
-				GameVars.currentLvl = 0;
-				GameVars.lastLvl = 1;
-				break;
-			case 2:
-				reset("02", 2);
-				break;
 			case 3:
 				lvlReader.clearLevel();
 				GenerateLevel.setUp();
 				GenerateLevel.generate();
 				GameVars.currentLvl = 0;
-				break;
-			case 4:
-				reset("04", 4);
-				break;
-			case 5:
-				reset("05", 5);
-				break;
-			case 6:
-				reset("06", 6);
-				break;
-			case 7:
-				reset("07", 7);
-				break;
-			case 8:
-				reset("08", 8);
-				break;
-			case 9:
-				reset("09", 9);
-				break;
-			case 10:
-				reset("10", 10);
-				break;
-			case 11:
-				reset("11", 11);
 				break;
 			default:
 				
@@ -149,14 +114,9 @@ public class GameWorld{
 			
 		}
 	
-		public void reset(String lvlnum, int lvlnumber){
+		public static void reset(){
 			
-			lvlReader.clearLevel();
-			Ball.setVelocity(new Vector2(0, 0));
-			Ball.setPosition(new Vector2(GameConstants.BALL_X / PPM, GameConstants.BALL_Y / PPM));
-			lvlReader.readLevel(Gdx.files.internal("lvl" + lvlnum +".txt").reader());
-			GameVars.currentLvl = 0;
-			GameVars.lastLvl = lvlnumber;
+			nextBlock = 1;
 			
 		}
 }

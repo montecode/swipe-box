@@ -46,4 +46,8 @@ public class GenerateLevel {
 		blockNumber++;
 	}
 	
+	public static void reset(){
+		lastPosition = 0;
+		blockNumber = 1;
+	}
 }

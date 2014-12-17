@@ -26,7 +26,7 @@ public class GameRenderer{
 	SpriteBatch batch;
 	ShapeRenderer shapeRenderer;
 	Box2DDebugRenderer debugRenderer;
-	OrthographicCamera b2dcam;
+	static OrthographicCamera b2dcam;
 	Array<Body> bodies;
 	float h, w;
 	World world;
@@ -56,6 +56,11 @@ public class GameRenderer{
 		debugRenderer.render(world, b2dcam.combined);
 		
 		
+	}
+	
+	public static void resetCameraPosition(){
+		b2dcam.position.set(GameConstants.GAME_WIDTH / PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);
+		b2dcam.update();
 	}
 	
 }

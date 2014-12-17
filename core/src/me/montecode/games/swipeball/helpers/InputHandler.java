@@ -1,7 +1,13 @@
 package me.montecode.games.swipeball.helpers;
 
 
+import static me.montecode.games.swipeball.utils.GameConstants.PPM;
 import me.montecode.games.swipeball.gameobjects.Ball;
+import me.montecode.games.swipeball.gameworld.GameRenderer;
+import me.montecode.games.swipeball.gameworld.GameWorld;
+import me.montecode.games.swipeball.levels.GenerateLevel;
+import me.montecode.games.swipeball.levels.LevelReader;
+import me.montecode.games.swipeball.utils.GameConstants;
 import me.montecode.games.swipeball.utils.GameVars;
 
 import com.badlogic.gdx.Gdx;
@@ -44,6 +50,7 @@ public class InputHandler implements InputProcessor{
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		firstTouch = new Vector2(screenX, screenY);
+		
 		return true;
 	}
 
@@ -61,7 +68,17 @@ public class InputHandler implements InputProcessor{
 			Ball.setVelocity(delta);
 			Ball.setJumpNumber(Ball.getJumpNumber() + 1);
 		}
+		Gdx.app.log("pos", Ball.getYPosition() + "");	
+		if(Ball.getYPosition() < 0){
 			
+			LevelReader.clearLevel();
+			GenerateLevel.reset();
+			GameWorld.reset();
+			GenerateLevel.setUp();
+			GenerateLevel.generate();
+			GameRenderer.resetCameraPosition();
+		}
+		
 		return true;
 	}
 
