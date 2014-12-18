@@ -4,6 +4,7 @@ import static me.montecode.games.swipeball.utils.GameConstants.PPM;
 import me.montecode.games.swipeball.gameobjects.Ball;
 import me.montecode.games.swipeball.levels.GenerateLevel;
 import me.montecode.games.swipeball.levels.LevelReader;
+import me.montecode.games.swipeball.utils.Enums;
 import me.montecode.games.swipeball.utils.GameConstants;
 import me.montecode.games.swipeball.utils.GameVars;
 
@@ -27,31 +28,24 @@ public class GameWorld{
 	float gh = GameConstants.GAME_HEIGHT;
 	int lastJumpNumber = 0;
 	boolean isFirstTime = true;
-	boolean isRestarted = false;
 	boolean isTimeForGenerate = false;
 	static int nextBlock = 1;
 	LevelReader lvlReader;
 	World world;
+	Enums.states currentState;
 	ContactListener listener = new ContactListener(){
 		@Override
 		public void beginContact(Contact contact) {
 			Body a = contact.getFixtureA().getBody();
 	        Body b = contact.getFixtureB().getBody();
 	        
-	        if((a.getUserData().equals("finish") && b.getUserData().equals("ball")) ||
-	        	(a.getUserData().equals("ball") && b.getUserData().equals("finish"))){	        	
-	        	GameVars.currentLvl = GameVars.lastLvl + 1;
-	        }
-	        else if((a.getUserData().equals("restart") && b.getUserData().equals("ball")) ||
-		        	(a.getUserData().equals("ball") && b.getUserData().equals("restart"))){
-	        	GameVars.ballPosition = new Vector2(GameConstants.BALL_X / PPM, GameConstants.BALL_Y / PPM);
-	        	isRestarted = true;
-	        }
-	        else if((a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("ball")) ||
+	        if((a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("ball")) ||
 		        	(a.getUserData().equals("ball") && b.getUserData().equals("block" + nextBlock))){
 	        		Ball.setVelocity(Vector2.Zero);
 	        		isTimeForGenerate = true;
 	        		nextBlock++;
+	        		Ball.updateScore();
+	        		Gdx.app.log("score: ", Ball.getScore() + "");
 	        }
 			
 		}
@@ -81,6 +75,7 @@ public class GameWorld{
 	
 	public GameWorld(World world){
 		this.world = world;
+		currentState = Enums.states.PLAY;
 		lvlReader = new LevelReader(world);
 		GenerateLevel generateLevel = new GenerateLevel(world);
 		world.setContactListener(listener);
@@ -89,22 +84,23 @@ public class GameWorld{
 	
 	public void update(float delta, OrthographicCamera cam){
 		world.step(delta, 6, 2);
-		
 		if(isTimeForGenerate){
 			GenerateLevel.generate();
 			isTimeForGenerate = false;
 			isFirstTime = false;
-			lastJumpNumber = Ball.getJumpNumber();
+			lastJumpNumber = Ball.getScore();
+			Gdx.app.log("score", lastJumpNumber + "");
 			cam.position.x = Ball.getXPosition() + cam.viewportWidth / 2 - 20 / PPM;
 			cam.update();
 		}
 		
-		switch(GameVars.currentLvl){
-			case 3:
+		switch(currentState){
+			case PLAY:
 				lvlReader.clearLevel();
 				GenerateLevel.setUp();
 				GenerateLevel.generate();
 				GameVars.currentLvl = 0;
+				currentState = Enums.states.RUNNING;
 				break;
 			default:
 				

@@ -70,13 +70,16 @@ public class Ball extends Actor{
 		ball.setTransform(position, 0);
 	}
 	
-	public static int getJumpNumber(){
+	public static int getScore(){
 		return jumpNumber;
 	}
 	
-	public static void setJumpNumber(int number){
-		jumpNumber = number;
-		Gdx.app.log("", jumpNumber + "");
+	public static void updateScore(){
+		jumpNumber++;
+	}
+	
+	public static void resetScore(){
+		jumpNumber = 0;
 	}
 	
 }

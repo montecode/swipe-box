@@ -66,17 +66,15 @@ public class InputHandler implements InputProcessor{
 		}
 		if(!Ball.isFlying()){
 			Ball.setVelocity(delta);
-			Ball.setJumpNumber(Ball.getJumpNumber() + 1);
-		}
-		Gdx.app.log("pos", Ball.getYPosition() + "");	
+		}	
 		if(Ball.getYPosition() < 0){
-			
 			LevelReader.clearLevel();
 			GenerateLevel.reset();
 			GameWorld.reset();
 			GenerateLevel.setUp();
 			GenerateLevel.generate();
 			GameRenderer.resetCameraPosition();
+			Ball.resetScore();
 		}
 		
 		return true;
@@ -85,20 +83,17 @@ public class InputHandler implements InputProcessor{
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		newTouch = new Vector2(screenX, screenY);		
-		
 		lastTouch = newTouch;
 		return true;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		
 		return false;
 	}
 

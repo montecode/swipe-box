@@ -38,11 +38,11 @@ public class GenerateLevel {
 		float width, height;
 		Random rand = new Random();
 		width = rand.nextFloat() * 50 + 20;
-		position.x = rand.nextFloat() * 200 + width + 100 + lastPosition;
+		position.x = rand.nextFloat() * 400 + width + 100 + lastPosition;
 		position.y = 0;
 		height = 60;
 		Box box = new Box(world, position, width, height, blockNumber);
-		lastPosition += position.x + 30;
+		lastPosition = position.x;
 		blockNumber++;
 	}
 	
