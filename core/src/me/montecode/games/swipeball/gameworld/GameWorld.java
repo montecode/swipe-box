@@ -89,7 +89,6 @@ public class GameWorld{
 			isTimeForGenerate = false;
 			isFirstTime = false;
 			lastJumpNumber = Ball.getScore();
-			Gdx.app.log("score", lastJumpNumber + "");
 			cam.position.x = Ball.getXPosition() + cam.viewportWidth / 2 - 20 / PPM;
 			cam.update();
 		}

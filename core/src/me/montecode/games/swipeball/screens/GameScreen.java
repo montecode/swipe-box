@@ -1,6 +1,8 @@
 package me.montecode.games.swipeball.screens;
 
 import static me.montecode.games.swipeball.utils.GameConstants.PPM;
+
+import me.montecode.games.swipeball.SwipeBallGame;
 import me.montecode.games.swipeball.gameobjects.Ball;
 import me.montecode.games.swipeball.gameworld.GameRenderer;
 import me.montecode.games.swipeball.gameworld.GameWorld;
@@ -8,6 +10,7 @@ import me.montecode.games.swipeball.helpers.InputHandler;
 import me.montecode.games.swipeball.utils.GameConstants;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,11 +28,11 @@ public class GameScreen implements Screen{
 	GameWorld gameWorld;
 	OrthographicCamera b2dcam;
 	
-	public GameScreen(){
+	public GameScreen(SwipeBallGame game){
 		world = new World(GameConstants.WORLD_GRAVITY, true);
 
 		gameWorld = new GameWorld(world);
-		inputHandler = new InputHandler();
+		inputHandler = new InputHandler(game);
 		Gdx.input.setInputProcessor(inputHandler);
 		b2dcam = new OrthographicCamera(GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
         b2dcam.position.set(GameConstants.GAME_WIDTH / PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);

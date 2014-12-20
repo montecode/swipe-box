@@ -2,15 +2,19 @@ package me.montecode.games.swipeball.helpers;
 
 
 import static me.montecode.games.swipeball.utils.GameConstants.PPM;
+
+import me.montecode.games.swipeball.SwipeBallGame;
 import me.montecode.games.swipeball.gameobjects.Ball;
 import me.montecode.games.swipeball.gameworld.GameRenderer;
 import me.montecode.games.swipeball.gameworld.GameWorld;
 import me.montecode.games.swipeball.levels.GenerateLevel;
 import me.montecode.games.swipeball.levels.LevelReader;
+import me.montecode.games.swipeball.screens.MenuScreen;
 import me.montecode.games.swipeball.utils.GameConstants;
 import me.montecode.games.swipeball.utils.GameVars;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
@@ -21,7 +25,12 @@ public class InputHandler implements InputProcessor{
 	private Vector2 lastTouch = new Vector2();
 	private Vector2 delta, newTouch, firstTouch;
 	private float scale = 5;
-	
+    private SwipeBallGame game;
+
+    public InputHandler(SwipeBallGame game){
+        this.game = game;
+    }
+
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -30,13 +39,11 @@ public class InputHandler implements InputProcessor{
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if(keycode == Keys.F1){
-			GameVars.currentLvl = GameVars.lastLvl + 1;
-		}
-		else if(keycode == Keys.F2){
-			GameVars.currentLvl = GameVars.lastLvl -  1;
-		}
-		return false;
+        if (keycode == Input.Keys.BACK) {
+            game.setScreen(new MenuScreen(game));
+        }
+
+        return true;
 	}
 
 	@Override
