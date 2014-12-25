@@ -20,11 +20,13 @@ public class GenerateLevel {
 	public static Array <Block> blocks;
 	static float lastPosition = 100;
 	static int blockNumber = 1;
-	
+    static Vector2 position;
+	static float width, height;
 	
 	public GenerateLevel(World world){
 		this.world = world;
         blocks = new Array();
+        position = new Vector2();
 	}
 	
 	public static void setUp(){
@@ -36,8 +38,6 @@ public class GenerateLevel {
 	}
 	
 	public static void generate(){
-		Vector2 position = new Vector2();
-		float width, height;
 		Random rand = new Random();
 		width = rand.nextFloat() * 50 + 20;
 		position.x = rand.nextFloat() * 400 + width + 100 + lastPosition;

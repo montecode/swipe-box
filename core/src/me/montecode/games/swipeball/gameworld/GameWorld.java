@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 
 public class GameWorld{
@@ -29,32 +30,28 @@ public class GameWorld{
 	static int nextBlock = 1;
 	LevelReader lvlReader;
 	World world;
+    Body a, b;
 	Enums.states currentState;
-    Body c = null;
     int destroyBlock = 0;
+    Array<Body> bodies = new Array();
 
 	ContactListener listener = new ContactListener(){
 		@Override
 		public void beginContact(Contact contact) {
-			Body a = contact.getFixtureA().getBody();
-	        Body b = contact.getFixtureB().getBody();
+			a = contact.getFixtureA().getBody();
+	        b = contact.getFixtureB().getBody();
 	        if((a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("box")) ||
 		        	(a.getUserData().equals("box") && b.getUserData().equals("block" + nextBlock))){
 	        		Box.setVelocity(Vector2.Zero);
 	        		isTimeForGenerate = true;
 	        		nextBlock++;
 	        		Box.updateScore();
-                    if(c != null) {
-                        toDestroyBlock = true;
-                    }
+                    toDestroyBlock = true;
+                    Gdx.app.log("width of 0", GenerateLevel.blocks.get(0).getWidth() + "");
+                    Gdx.app.log("position of 0", GenerateLevel.blocks.get(0).getPosition() + "");
+                    Gdx.app.log("width of 1", GenerateLevel.blocks.get(1).getWidth() + "");
+                    Gdx.app.log("position of 1", GenerateLevel.blocks.get(1).getPosition() + "");
 	        }
-            else{
-                if(!b.getUserData().equals("box") && b.getUserData().equals("block" + destroyBlock)){
-                    c = b;
-                }else if(!a.getUserData().equals("box") && a.getUserData().equals("block" + destroyBlock)){
-                    c = a;
-                }
-            }
 			
 		}
 
@@ -102,11 +99,19 @@ public class GameWorld{
 		}
 
         if(toDestroyBlock){
-           world.destroyBody(c);
+            /*world.getBodies(bodies);
+            for(Body body : bodies){
+                //Gdx.app.log("bol", ""+body.getUserData().equals("block" + destroyBlock));
+                if(body.getUserData().equals("block" + destroyBlock)){
+                    world.destroyBody(body);
+                    Gdx.app.log("world.destroybody called", "true");
+                }
+            }*/
+
            GenerateLevel.blocks.removeIndex(0);
            destroyBlock++;
            toDestroyBlock = false;
-           c = null;
+           //Gdx.app.log("bc", ""+world.getBodyCount());
         }
 
 		switch(currentState){

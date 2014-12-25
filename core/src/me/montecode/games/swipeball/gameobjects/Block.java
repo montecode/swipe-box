@@ -14,7 +14,7 @@ public class Block{
 
     Body block;
 
-    public static float width, height;
+    float width, height;
     static int blockNumber;
 
     public Block(World world, Vector2 position, float width, float height, int blockNumber){
@@ -46,5 +46,7 @@ public class Block{
         return block.getPosition();
     }
 
-
+    public float getWidth(){
+        return width;
+    }
 }
