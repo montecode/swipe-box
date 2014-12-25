@@ -33,7 +33,7 @@ public class MenuScreen implements Screen, InputProcessor{
 		batch = new SpriteBatch();
 		setUpCamera();
 		font = new BitmapFont();
-        font.setColor(256, 256, 256, 0);
+        font.setColor(1, 1, 1, 1);
 		playBounds = new Rectangle(GameConstants.GAME_WIDTH / 2 - 100, GameConstants.GAME_HEIGHT / 2 - 37.5f, 200, 75);
         aboutBounds = new Rectangle(GameConstants.GAME_WIDTH / 2 - 100, GameConstants.GAME_HEIGHT / 3.5f - 37.5f, 200, 75);
         touchPoint = new Vector3();
@@ -48,7 +48,7 @@ public class MenuScreen implements Screen, InputProcessor{
             cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
             if (playBounds.contains(touchPoint.x, touchPoint.y)) {
-                game.setScreen(new LoadScreen(game));
+                game.setScreen(new GameScreen(game));
             }
 
             if (aboutBounds.contains(touchPoint.x, touchPoint.y)) {
@@ -59,11 +59,11 @@ public class MenuScreen implements Screen, InputProcessor{
 	
 	public static void draw(){
 
-        Gdx.gl20.glClearColor(0, 0, 0, 0);
+        Gdx.gl20.glClearColor(238/256f, 28/256f, 26/256f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-		
-		shapeRenderer.setColor(Color.BLUE);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        shapeRenderer.setColor(244/256f, 119/256f, 124/256f, 1);
 		shapeRenderer.rect(playBounds.getX(), playBounds.getY(), playBounds.getWidth(), playBounds.getHeight());
 		shapeRenderer.rect(aboutBounds.getX(), aboutBounds.getY(), aboutBounds.getWidth(), aboutBounds.getHeight());
 		shapeRenderer.end();

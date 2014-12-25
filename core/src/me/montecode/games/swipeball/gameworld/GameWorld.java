@@ -1,7 +1,6 @@
 package me.montecode.games.swipeball.gameworld;
 
-import static me.montecode.games.swipeball.utils.GameConstants.PPM;
-import me.montecode.games.swipeball.gameobjects.Ball;
+import me.montecode.games.swipeball.gameobjects.Box;
 import me.montecode.games.swipeball.levels.GenerateLevel;
 import me.montecode.games.swipeball.levels.LevelReader;
 import me.montecode.games.swipeball.utils.Enums;
@@ -17,36 +16,45 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-
 
 
 public class GameWorld{
 	
 	float PPM = GameConstants.PPM;
-	float gw = GameConstants.GAME_WIDTH;
-	float gh = GameConstants.GAME_HEIGHT;
+    GenerateLevel generateLevel;
 	int lastJumpNumber = 0;
 	boolean isFirstTime = true;
 	boolean isTimeForGenerate = false;
+    boolean toDestroyBlock = false;
 	static int nextBlock = 1;
 	LevelReader lvlReader;
 	World world;
 	Enums.states currentState;
+    Body c = null;
+    int destroyBlock = 0;
+
 	ContactListener listener = new ContactListener(){
 		@Override
 		public void beginContact(Contact contact) {
 			Body a = contact.getFixtureA().getBody();
 	        Body b = contact.getFixtureB().getBody();
-	        
-	        if((a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("ball")) ||
-		        	(a.getUserData().equals("ball") && b.getUserData().equals("block" + nextBlock))){
-	        		Ball.setVelocity(Vector2.Zero);
+	        if((a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("box")) ||
+		        	(a.getUserData().equals("box") && b.getUserData().equals("block" + nextBlock))){
+	        		Box.setVelocity(Vector2.Zero);
 	        		isTimeForGenerate = true;
 	        		nextBlock++;
-	        		Ball.updateScore();
-	        		Gdx.app.log("score: ", Ball.getScore() + "");
+	        		Box.updateScore();
+                    if(c != null) {
+                        toDestroyBlock = true;
+                    }
 	        }
+            else{
+                if(!b.getUserData().equals("box") && b.getUserData().equals("block" + destroyBlock)){
+                    c = b;
+                }else if(!a.getUserData().equals("box") && a.getUserData().equals("block" + destroyBlock)){
+                    c = a;
+                }
+            }
 			
 		}
 
@@ -77,8 +85,8 @@ public class GameWorld{
 		this.world = world;
 		currentState = Enums.states.PLAY;
 		lvlReader = new LevelReader(world);
-		GenerateLevel generateLevel = new GenerateLevel(world);
 		world.setContactListener(listener);
+        generateLevel = new GenerateLevel(world);
 	}
 	
 	
@@ -88,11 +96,19 @@ public class GameWorld{
 			GenerateLevel.generate();
 			isTimeForGenerate = false;
 			isFirstTime = false;
-			lastJumpNumber = Ball.getScore();
-			cam.position.x = Ball.getXPosition() + cam.viewportWidth / 2 - 20 / PPM;
+			lastJumpNumber = Box.getScore();
+			cam.position.x = Box.getXPosition() + cam.viewportWidth / 2 - 20 / PPM;
 			cam.update();
 		}
-		
+
+        if(toDestroyBlock){
+           world.destroyBody(c);
+           GenerateLevel.blocks.removeIndex(0);
+           destroyBlock++;
+           toDestroyBlock = false;
+           c = null;
+        }
+
 		switch(currentState){
 			case PLAY:
 				lvlReader.clearLevel();

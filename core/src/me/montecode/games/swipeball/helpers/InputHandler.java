@@ -1,27 +1,21 @@
 package me.montecode.games.swipeball.helpers;
 
 
-import static me.montecode.games.swipeball.utils.GameConstants.PPM;
-
 import me.montecode.games.swipeball.SwipeBallGame;
-import me.montecode.games.swipeball.gameobjects.Ball;
+import me.montecode.games.swipeball.gameobjects.Box;
 import me.montecode.games.swipeball.gameworld.GameRenderer;
 import me.montecode.games.swipeball.gameworld.GameWorld;
 import me.montecode.games.swipeball.levels.GenerateLevel;
 import me.montecode.games.swipeball.levels.LevelReader;
 import me.montecode.games.swipeball.screens.MenuScreen;
-import me.montecode.games.swipeball.utils.GameConstants;
-import me.montecode.games.swipeball.utils.GameVars;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 public class InputHandler implements InputProcessor{
 	
-	
+	private boolean fromMenu = true;
 	private Vector2 lastTouch = new Vector2();
 	private Vector2 delta, newTouch, firstTouch;
 	private float scale = 5;
@@ -63,28 +57,33 @@ public class InputHandler implements InputProcessor{
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		firstTouch.set(firstTouch.x / scale, firstTouch.y / scale);
-		delta = new Vector2(lastTouch.x / scale, lastTouch.y / scale).cpy().sub(firstTouch);
-		delta.limit(40);
-		
-		if(delta.y > 0 || delta.x < 0 || (delta.y < 0 && delta.x == 0)){
-			delta.y = 0;
-			delta.x = 0;
-		}
-		if(!Ball.isFlying()){
-			Ball.setVelocity(delta);
-		}	
-		if(Ball.getYPosition() < 0){
-			LevelReader.clearLevel();
-			GenerateLevel.reset();
-			GameWorld.reset();
-			GenerateLevel.setUp();
-			GenerateLevel.generate();
-			GameRenderer.resetCameraPosition();
-			Ball.resetScore();
-		}
-		
+        if(!fromMenu) {
+            firstTouch.set(firstTouch.x / scale, firstTouch.y / scale);
+            delta = new Vector2(lastTouch.x / scale, lastTouch.y / scale).cpy().sub(firstTouch);
+            delta.limit(40);
+
+            if (delta.y > 0 || delta.x < 0 || (delta.y < 0 && delta.x == 0)) {
+                delta.y = 0;
+                delta.x = 0;
+            }
+            if (!Box.isFlying()) {
+                Box.setVelocity(delta);
+            }
+            if (Box.getYPosition() < 0) {
+                LevelReader.clearLevel();
+                GenerateLevel.reset();
+                GameWorld.reset();
+                GenerateLevel.setUp();
+                GenerateLevel.generate();
+                GameRenderer.resetCameraPosition();
+                Box.checkHighScore();
+                Box.resetScore();
+
+            }
+        }
+        fromMenu = false;
 		return true;
+
 	}
 
 	@Override
