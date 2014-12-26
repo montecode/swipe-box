@@ -47,10 +47,6 @@ public class GameWorld{
 	        		nextBlock++;
 	        		Box.updateScore();
                     toDestroyBlock = true;
-                    Gdx.app.log("width of 0", GenerateLevel.blocks.get(0).getWidth() + "");
-                    Gdx.app.log("position of 0", GenerateLevel.blocks.get(0).getPosition() + "");
-                    Gdx.app.log("width of 1", GenerateLevel.blocks.get(1).getWidth() + "");
-                    Gdx.app.log("position of 1", GenerateLevel.blocks.get(1).getPosition() + "");
 	        }
 			
 		}
@@ -111,7 +107,6 @@ public class GameWorld{
            GenerateLevel.blocks.removeIndex(0);
            destroyBlock++;
            toDestroyBlock = false;
-           //Gdx.app.log("bc", ""+world.getBodyCount());
         }
 
 		switch(currentState){

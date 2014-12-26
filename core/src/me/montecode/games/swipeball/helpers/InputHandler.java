@@ -60,9 +60,10 @@ public class InputHandler implements InputProcessor{
         if(!fromMenu) {
             firstTouch.set(firstTouch.x / scale, firstTouch.y / scale);
             delta = new Vector2(lastTouch.x / scale, lastTouch.y / scale).cpy().sub(firstTouch);
-            delta.limit(40);
 
-            if (delta.y > 0 || delta.x < 0 || (delta.y < 0 && delta.x == 0)) {
+            delta.limit(15);
+
+            if (delta.angle() < 270) {
                 delta.y = 0;
                 delta.x = 0;
             }

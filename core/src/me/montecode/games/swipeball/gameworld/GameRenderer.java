@@ -49,16 +49,12 @@ public class GameRenderer{
 
         world.getBodies(bodies);
 
-        //Gdx.app.log("bodies[0]: ", bodies.get(0).getUserData() + "");
-        //Gdx.app.log("bodies[1]: ", bodies.get(1).getUserData() + "");
-        //Gdx.app.log("bodies[2]: ", bodies.get(2).getUserData() + "");
-
 
         Gdx.gl.glClearColor(238/256f, 28/256f, 26/256f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
         //batch.setProjectionMatrix(b2dcam.combined);
-		//debugRenderer.render(world, b2dcam.combined);
+        //debugRenderer.render(world, b2dcam.combined);
         shapeRenderer.setProjectionMatrix(b2dcam.combined);
 		batch.begin();
 		font.draw(batch, Box.getScore() + "", w / 2, h - 100);
@@ -73,8 +69,6 @@ public class GameRenderer{
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(244/256f, 119/256f, 124/256f, 1);
         for(Block block : GenerateLevel.blocks){
-            //Gdx.app.log("pos: ", block.getPosition() + "");
-            //Gdx.app.log("size", GenerateLevel.blocks.size + "");
 
             if(block.getPosition().x == 0){
                 float w = 100 / 100f;
@@ -83,7 +77,6 @@ public class GameRenderer{
 
             }else {
                 float w = block.getWidth();
-                //Gdx.app.log("width", w*2 + "");
                 float h = 60 / 100f;
                 shapeRenderer.box(block.getPosition().x - w, block.getPosition().y, 0, w * 2, h, 0);
             }
