@@ -92,6 +92,7 @@ public class Box extends Actor{
     public static void checkHighScore(){
         if(jumpNumber > prefs.getInteger("highScore")){
             prefs.putInteger("highScore", jumpNumber);
+            prefs.flush();
         }
     }
 

@@ -83,7 +83,25 @@ public class GameRenderer{
 
         }
         shapeRenderer.end();
-		
+
+        if(Box.getYPosition() < 0){
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(244/256f, 119/256f, 124/256f, 0.3f);
+            shapeRenderer.rect(b2dcam.position.x - 150/PPM, (h/2 - 200) / PPM, 300 / PPM, 400 / PPM);
+            shapeRenderer.end();
+
+            batch.begin();
+            String s1 = "Your Score: " + Box.getScore();
+            String s2 = "High Score: " + Box.getHighScore();
+            String s3 = "Game Over";
+            String s4 = "Tap to restart";
+            font.draw(batch, s1, w / 2 - font.getBounds(s1).width/2, h / 2);
+            font.draw(batch, s2, w / 2 - font.getBounds(s2).width/2, h * 2/3);
+            font.draw(batch, s3, w / 2 - font.getBounds(s3).width/2, h - 100);
+            font.draw(batch, s4, w / 2 - font.getBounds(s4).width/2, h / 3);
+            batch.end();
+        }
+
 	}
 	
 	public static void resetCameraPosition(){
