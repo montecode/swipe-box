@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -30,6 +31,8 @@ public class GameRenderer{
 	World world;
 	Box box;
     BitmapFont font;
+    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Dimbo Regular.ttf"));
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 	public GameRenderer(World world, OrthographicCamera cam){
 		this.world = world;
@@ -37,9 +40,10 @@ public class GameRenderer{
 		batch  = new SpriteBatch();
 		h = Gdx.graphics.getHeight();
 		w = Gdx.graphics.getWidth();
-        new BitmapFont();
         b2dcam = cam;
-        font = new BitmapFont();
+        parameter.size = 30;
+        font = generator.generateFont(parameter);
+        generator.dispose();
         box = new Box(world);
 		debugRenderer = new Box2DDebugRenderer();
 	
@@ -50,20 +54,29 @@ public class GameRenderer{
         world.getBodies(bodies);
 
 
-        Gdx.gl.glClearColor(238/256f, 28/256f, 26/256f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
         //batch.setProjectionMatrix(b2dcam.combined);
         //debugRenderer.render(world, b2dcam.combined);
         shapeRenderer.setProjectionMatrix(b2dcam.combined);
+
+        //Draw red background
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(238/256f, 28/256f, 26/256f, 1);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
+
+        //Draw score
 		batch.begin();
 		font.draw(batch, Box.getScore() + "", w / 2, h - 100);
         font.draw(batch, "high score: " + Box.getHighScore(), 10, h - 10);
 		batch.end();
+
         //Draw box
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(1, 1, 1, 1);
-        shapeRenderer.box(Box.getXPosition() - 0.1f, Box.getYPosition() - 0.1f, 0, 10/100f * 2, 10/100f * 2, 0);
+        shapeRenderer.rect(Box.getXPosition() - 0.1f, Box.getYPosition() - 0.1f, 10/100f * 2, 10/100f * 2);
         shapeRenderer.end();
         //Draw blocks
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);

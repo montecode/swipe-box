@@ -13,18 +13,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameScreen implements Screen{
-	
-	//GameWorld world;
+
 	World world;
 	GameRenderer renderer;
-	Box box;
-	private float runTime;
 	InputHandler inputHandler;
 	GameWorld gameWorld;
 	OrthographicCamera b2dcam;
-	
+	Viewport viewport;
+
 	public GameScreen(SwipeBallGame game){
 		world = new World(GameConstants.WORLD_GRAVITY, true);
 
@@ -35,6 +35,7 @@ public class GameScreen implements Screen{
         b2dcam.position.set(GameConstants.GAME_WIDTH / PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);
         b2dcam.update();
         renderer = new GameRenderer(world, b2dcam);
+        viewport = new ExtendViewport(800 / PPM, 460 / PPM, b2dcam);
 	}
 	
 	
@@ -47,7 +48,7 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		viewport.update(width, height);
 		
 	}
 

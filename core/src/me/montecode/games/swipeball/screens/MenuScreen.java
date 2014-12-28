@@ -2,20 +2,21 @@ package me.montecode.games.swipeball.screens;
 
 import me.montecode.games.swipeball.SwipeBallGame;
 import me.montecode.games.swipeball.utils.GameConstants;
-import me.montecode.games.swipeball.screens.GameScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MenuScreen implements Screen, InputProcessor{
 	
@@ -27,20 +28,26 @@ public class MenuScreen implements Screen, InputProcessor{
 	static Vector3 touchPoint;
 	static SwipeBallGame game;
     static BitmapFont font;
-	
+    Viewport viewport;
+
+    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Dimbo Regular.ttf"));
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
 	public MenuScreen(SwipeBallGame game){
 		this.game = game;
 		batch = new SpriteBatch();
 		setUpCamera();
-		font = new BitmapFont();
-        font.setColor(1, 1, 1, 1);
-		playBounds = new Rectangle(GameConstants.GAME_WIDTH / 2 - 100, GameConstants.GAME_HEIGHT / 2 - 37.5f, 200, 75);
-        aboutBounds = new Rectangle(GameConstants.GAME_WIDTH / 2 - 100, GameConstants.GAME_HEIGHT / 3.5f - 37.5f, 200, 75);
+        parameter.size = 40;
+		font = generator.generateFont(parameter);
+        generator.dispose();
+		playBounds = new Rectangle(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 - 37.5f, 200, 75);
+        aboutBounds = new Rectangle(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 3.5f - 37.5f, 200, 75);
         touchPoint = new Vector3();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
         Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(this);
+        viewport = new ExtendViewport(800, 460, cam);
 	}
 	
 	public static void update(){
@@ -59,10 +66,16 @@ public class MenuScreen implements Screen, InputProcessor{
 	
 	public static void draw(){
 
-        Gdx.gl20.glClearColor(238/256f, 28/256f, 26/256f, 1);
+        Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
+        //Draw red background
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(238/256f, 28/256f, 26/256f, 1);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
+
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(244/256f, 119/256f, 124/256f, 1);
 		shapeRenderer.rect(playBounds.getX(), playBounds.getY(), playBounds.getWidth(), playBounds.getHeight());
 		shapeRenderer.rect(aboutBounds.getX(), aboutBounds.getY(), aboutBounds.getWidth(), aboutBounds.getHeight());
@@ -70,15 +83,15 @@ public class MenuScreen implements Screen, InputProcessor{
 
         batch.begin();
         font.draw(batch, "SwipeBox v1.0", 10, GameConstants.GAME_HEIGHT - 10);
-        font.draw(batch, "Play", playBounds.getX() + playBounds.getWidth() / 2 - "Play".length() * 3, playBounds.getY() + playBounds.getHeight() / 2 + 5);
-        font.draw(batch, "About", aboutBounds.getX() + aboutBounds.getWidth() / 2 - "About".length() * 3, aboutBounds.getY() + aboutBounds.getHeight() / 2 + 5);
+        font.draw(batch, "Play", playBounds.getX() + playBounds.getWidth() / 2 - font.getBounds("Play").width / 2, playBounds.getY() + playBounds.getHeight() / 2 + font.getBounds("Play").height / 2);
+        font.draw(batch, "About", aboutBounds.getX() + aboutBounds.getWidth() / 2 - font.getBounds("About").width / 2, aboutBounds.getY() + aboutBounds.getHeight() / 2 + font.getBounds("About").height / 2);
         batch.end();
 		
 	}
 	
 	public static void setUpCamera(){
 		cam = new OrthographicCamera();
-		cam.setToOrtho(false, GameConstants.GAME_WIDTH, GameConstants.GAME_HEIGHT);
+		cam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		cam.update();
 	}
 	
@@ -90,7 +103,7 @@ public class MenuScreen implements Screen, InputProcessor{
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		viewport.update(width, height);
 		
 	}
 
@@ -133,7 +146,7 @@ public class MenuScreen implements Screen, InputProcessor{
 	@Override
 	public boolean keyUp(int keycode) {
 		
-		if( keycode == Input.Keys.BACK ){
+		if( keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE ){
 			Gdx.app.exit();
 		}
 		

@@ -33,7 +33,7 @@ public class InputHandler implements InputProcessor{
 
 	@Override
 	public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.BACK) {
+        if (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) {
             game.setScreen(new MenuScreen(game));
         }
 

@@ -6,8 +6,6 @@ import me.montecode.games.swipeball.levels.LevelReader;
 import me.montecode.games.swipeball.utils.Enums;
 import me.montecode.games.swipeball.utils.GameConstants;
 import me.montecode.games.swipeball.utils.GameVars;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -16,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 
 
 public class GameWorld{
@@ -33,7 +30,6 @@ public class GameWorld{
     Body a, b;
 	Enums.states currentState;
     int destroyBlock = 0;
-    Array<Body> bodies = new Array();
 
 	ContactListener listener = new ContactListener(){
 		@Override
