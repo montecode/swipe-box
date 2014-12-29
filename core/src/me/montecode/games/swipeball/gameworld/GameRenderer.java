@@ -2,6 +2,7 @@ package me.montecode.games.swipeball.gameworld;
 
 import me.montecode.games.swipeball.gameobjects.Block;
 import me.montecode.games.swipeball.gameobjects.Box;
+import me.montecode.games.swipeball.helpers.AssetLoader;
 import me.montecode.games.swipeball.levels.GenerateLevel;
 import me.montecode.games.swipeball.utils.GameConstants;
 
@@ -27,6 +28,7 @@ public class GameRenderer{
 	Box2DDebugRenderer debugRenderer;
 	static OrthographicCamera b2dcam;
 	Array<Body> bodies = new Array<Body>();
+    public static boolean firstGame = true;
 	float h, w;
 	World world;
 	Box box;
@@ -112,6 +114,13 @@ public class GameRenderer{
             font.draw(batch, s2, w / 2 - font.getBounds(s2).width/2, h * 2/3);
             font.draw(batch, s3, w / 2 - font.getBounds(s3).width/2, h - 100);
             font.draw(batch, s4, w / 2 - font.getBounds(s4).width/2, h / 3);
+            batch.end();
+        }
+
+        if(firstGame){
+            batch.begin();
+            batch.draw(AssetLoader.hint, Gdx.graphics.getWidth() / 2 - AssetLoader.hint.getWidth() / 2,
+                    Gdx.graphics.getHeight()  / 2 - AssetLoader.hint.getHeight()  / 2);
             batch.end();
         }
 

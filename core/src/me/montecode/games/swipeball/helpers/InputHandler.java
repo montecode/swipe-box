@@ -18,7 +18,6 @@ public class InputHandler implements InputProcessor{
 	private boolean fromMenu = true;
 	private Vector2 lastTouch = new Vector2();
 	private Vector2 delta, newTouch, firstTouch;
-	private float scale = 5;
     private SwipeBallGame game;
 
     public InputHandler(SwipeBallGame game){
@@ -57,16 +56,25 @@ public class InputHandler implements InputProcessor{
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if(!fromMenu) {
-            firstTouch.set(firstTouch.x / scale, firstTouch.y / scale);
-            delta = new Vector2(lastTouch.x / scale, lastTouch.y / scale).cpy().sub(firstTouch);
+        if(GameRenderer.firstGame && !fromMenu){
+            GameRenderer.firstGame = false;
+        }
 
-            delta.limit(15);
+        if(!fromMenu) {
+            firstTouch.set(firstTouch.x, firstTouch.y);
+            delta = new Vector2(lastTouch.x, lastTouch.y).cpy().sub(firstTouch);
+            delta.limit(200);
+            delta.scl(1/10f);
 
             if (delta.angle() < 270) {
                 delta.y = 0;
                 delta.x = 0;
             }
+
+            if(delta.angle() > (270 + 45)) {
+                //delta.scl(0.5f);
+            }
+
             if (!Box.isFlying()) {
                 Box.setVelocity(delta);
             }

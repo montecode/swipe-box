@@ -37,12 +37,13 @@ public class Box extends Actor{
 		PolygonShape shape = new PolygonShape();
 	    shape.setAsBox(10 / PPM, 10 / PPM);
 		fd.shape = shape;
-		fd.restitution = 0.3f;
-		//fd.density = 2;
+		fd.restitution = 0.5f;
+        fd.density = 30;
+        bd.fixedRotation = true;
 		fd.filter.maskBits = 4;
 		fd.filter.categoryBits = 6;
-		//bd.linearDamping = 1;
-
+		//bd.linearDamping = 2f;
+        //bd.gravityScale = 2;
 
 
 		box = world.createBody(bd);
@@ -53,9 +54,14 @@ public class Box extends Actor{
 	
 	
 	public static void setVelocity(Vector2 velocity){
-		box.setLinearVelocity(velocity);
+		//box.setLinearVelocity(velocity);
+        box.applyLinearImpulse(velocity, box.getWorldCenter(), true);
 	}
-	
+
+    public static void stop(){
+        box.setLinearVelocity(Vector2.Zero);
+    }
+
 	public static boolean isFlying(){
 		if(box.getLinearVelocity().x == 0 && box.getLinearVelocity().y == 0){
 			return false;

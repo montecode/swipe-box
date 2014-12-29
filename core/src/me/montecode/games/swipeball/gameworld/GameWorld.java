@@ -38,12 +38,16 @@ public class GameWorld{
 	        b = contact.getFixtureB().getBody();
 	        if((a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("box")) ||
 		        	(a.getUserData().equals("box") && b.getUserData().equals("block" + nextBlock))){
-	        		Box.setVelocity(Vector2.Zero);
+	        		//Box.setVelocity(Vector2.Zero);
+                    Box.stop();
 	        		isTimeForGenerate = true;
 	        		nextBlock++;
 	        		Box.updateScore();
                     toDestroyBlock = true;
 	        }
+            else{
+                Box.stop();
+            }
 			
 		}
 
