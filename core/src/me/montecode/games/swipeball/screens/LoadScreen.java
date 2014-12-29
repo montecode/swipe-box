@@ -7,8 +7,11 @@ import me.montecode.games.swipeball.utils.GameConstants;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class LoadScreen implements Screen{
 	
@@ -16,16 +19,21 @@ public class LoadScreen implements Screen{
 	SwipeBallGame game;
 	float time = 0;
     SpriteBatch batch;
+    OrthographicCamera cam;
+    Viewport viewport;
 
 	public LoadScreen(SwipeBallGame game){
 		this.game = game;
         batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
+        cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport = new ExtendViewport(800, 460);
 	}
 	
 	public void draw(){
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(cam.combined);
         batch.begin();
         batch.draw(AssetLoader.splashScreen, 0, 0);
         batch.end();
@@ -46,7 +54,7 @@ public class LoadScreen implements Screen{
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		viewport.update(width, height);
 		
 	}
 
