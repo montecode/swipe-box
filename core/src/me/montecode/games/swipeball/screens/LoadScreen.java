@@ -27,6 +27,7 @@ public class LoadScreen implements Screen{
         batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam.setToOrtho(false, cam.viewportWidth, cam.viewportHeight);
         viewport = new ExtendViewport(800, 460);
 	}
 	

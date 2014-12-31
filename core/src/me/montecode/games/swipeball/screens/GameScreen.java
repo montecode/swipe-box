@@ -29,13 +29,14 @@ public class GameScreen implements Screen{
 		world = new World(GameConstants.WORLD_GRAVITY, true);
 
 		gameWorld = new GameWorld(world);
-		inputHandler = new InputHandler(game);
-		Gdx.input.setInputProcessor(inputHandler);
+
 		b2dcam = new OrthographicCamera(GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
         b2dcam.position.set(GameConstants.GAME_WIDTH / PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);
         b2dcam.update();
         renderer = new GameRenderer(world, b2dcam);
         viewport = new ExtendViewport(800 / PPM, 460 / PPM, b2dcam);
+        inputHandler = new InputHandler(game, b2dcam);
+        Gdx.input.setInputProcessor(inputHandler);
 	}
 	
 	

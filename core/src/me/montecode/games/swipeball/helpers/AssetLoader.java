@@ -14,6 +14,7 @@ public class AssetLoader {
 
     public static void dispose(){
         splashScreen.dispose();
+        hint.dispose();
     }
 
 }

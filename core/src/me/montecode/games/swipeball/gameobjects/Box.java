@@ -4,6 +4,7 @@ import static me.montecode.games.swipeball.utils.GameConstants.PPM;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -42,8 +43,7 @@ public class Box extends Actor{
         bd.fixedRotation = true;
 		fd.filter.maskBits = 4;
 		fd.filter.categoryBits = 6;
-		//bd.linearDamping = 2f;
-        //bd.gravityScale = 2;
+
 
 
 		box = world.createBody(bd);
@@ -54,7 +54,6 @@ public class Box extends Actor{
 	
 	
 	public static void setVelocity(Vector2 velocity){
-		//box.setLinearVelocity(velocity);
         box.applyLinearImpulse(velocity, box.getWorldCenter(), true);
 	}
 
@@ -105,4 +104,5 @@ public class Box extends Actor{
     public static int getHighScore(){
         return prefs.getInteger("highScore");
     }
+
 }

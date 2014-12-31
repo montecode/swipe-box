@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 
 public class GameWorld{
@@ -23,6 +24,7 @@ public class GameWorld{
 	int lastJumpNumber = 0;
 	boolean isFirstTime = true;
 	boolean isTimeForGenerate = false;
+    boolean isTimeForCameraTranslate = false;
     boolean toDestroyBlock = false;
 	static int nextBlock = 1;
 	LevelReader lvlReader;
@@ -30,6 +32,7 @@ public class GameWorld{
     Body a, b;
 	Enums.states currentState;
     int destroyBlock = 0;
+    Array <Body> bodies = new Array<Body>();
 
 	ContactListener listener = new ContactListener(){
 		@Override
@@ -38,9 +41,9 @@ public class GameWorld{
 	        b = contact.getFixtureB().getBody();
 	        if((a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("box")) ||
 		        	(a.getUserData().equals("box") && b.getUserData().equals("block" + nextBlock))){
-	        		//Box.setVelocity(Vector2.Zero);
                     Box.stop();
 	        		isTimeForGenerate = true;
+                    isTimeForCameraTranslate = true;
 	        		nextBlock++;
 	        		Box.updateScore();
                     toDestroyBlock = true;
@@ -85,25 +88,23 @@ public class GameWorld{
 	
 	public void update(float delta, OrthographicCamera cam){
 		world.step(delta, 6, 2);
+        if(isTimeForCameraTranslate) {
+            translateCamera(cam, Box.getXPosition() + cam.viewportWidth / 2 - 50 / PPM);
+        }
 		if(isTimeForGenerate){
 			GenerateLevel.generate();
 			isTimeForGenerate = false;
 			isFirstTime = false;
 			lastJumpNumber = Box.getScore();
-			cam.position.x = Box.getXPosition() + cam.viewportWidth / 2 - 20 / PPM;
-			cam.update();
 		}
 
         if(toDestroyBlock){
-            /*world.getBodies(bodies);
+            world.getBodies(bodies);
             for(Body body : bodies){
-                //Gdx.app.log("bol", ""+body.getUserData().equals("block" + destroyBlock));
                 if(body.getUserData().equals("block" + destroyBlock)){
                     world.destroyBody(body);
-                    Gdx.app.log("world.destroybody called", "true");
                 }
-            }*/
-
+            }
            GenerateLevel.blocks.removeIndex(0);
            destroyBlock++;
            toDestroyBlock = false;
@@ -130,6 +131,15 @@ public class GameWorld{
 			nextBlock = 1;
 			
 		}
+
+        public void translateCamera(OrthographicCamera camera, float location){
+            if(camera.position.x <  location) {
+                camera.translate(10 / PPM, 0);
+                camera.update();
+            }else{
+                isTimeForCameraTranslate = false;
+            }
+        }
 }
 
 

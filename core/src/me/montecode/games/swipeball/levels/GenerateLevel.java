@@ -40,10 +40,20 @@ public class GenerateLevel {
 	
 	public static void generate(){
 		Random rand = new Random();
-		position.x = rand.nextFloat() * 350 + width + 50 + lastPosition;
+        if(Box.getScore() > 15){
+            position.x = rand.nextFloat() * 350 + width + 50 + lastPosition;
+            width = rand.nextFloat() * 50 + 20;
+        }else if(Box.getScore() > 30){
+            position.x = rand.nextFloat() * 350 + width + 50 + lastPosition;
+            width = rand.nextFloat() * 25 + 20;
+        }
+        else{
+            position.x = width + lastPosition + 50 + rand.nextFloat() * 200;
+            width = rand.nextFloat() * 80 + 40;
+        }
+        position.x += width;
 		position.y = 0;
 		height = 60;
-        width = rand.nextFloat() * 50 + 20;
 		blocks.add(new Block(world, position, width, height, blockNumber));
 		lastPosition = position.x;
 		blockNumber++;

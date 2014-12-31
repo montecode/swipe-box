@@ -9,8 +9,11 @@ import me.montecode.games.swipeball.levels.GenerateLevel;
 import me.montecode.games.swipeball.levels.LevelReader;
 import me.montecode.games.swipeball.screens.MenuScreen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class InputHandler implements InputProcessor{
@@ -19,9 +22,12 @@ public class InputHandler implements InputProcessor{
 	private Vector2 lastTouch = new Vector2();
 	private Vector2 delta, newTouch, firstTouch;
     private SwipeBallGame game;
+    Rectangle boxBounds;
+    OrthographicCamera cam;
 
-    public InputHandler(SwipeBallGame game){
+    public InputHandler(SwipeBallGame game, OrthographicCamera cam){
         this.game = game;
+        this.cam = cam;
     }
 
 	@Override
@@ -56,6 +62,7 @@ public class InputHandler implements InputProcessor{
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        boxBounds = new Rectangle(Box.getXPosition() - 0.1f, Box.getYPosition() - 0.1f, 10/100f * 2, 10/100f * 2);
         if(GameRenderer.firstGame && !fromMenu){
             GameRenderer.firstGame = false;
         }
@@ -71,11 +78,7 @@ public class InputHandler implements InputProcessor{
                 delta.x = 0;
             }
 
-            if(delta.angle() > (270 + 45)) {
-                //delta.scl(0.5f);
-            }
-
-            if (!Box.isFlying()) {
+            if (!Box.isFlying() && boxBounds.contains(new Vector2(firstTouch.x / 100f + cam.position.x - cam.viewportWidth/2f, (Gdx.graphics.getHeight() - firstTouch.y) / 100f))) {
                 Box.setVelocity(delta);
             }
             if (Box.getYPosition() < 0) {
