@@ -22,7 +22,6 @@ public class InputHandler implements InputProcessor{
 	private Vector2 lastTouch = new Vector2();
 	private Vector2 delta, newTouch, firstTouch;
     private SwipeBallGame game;
-    Rectangle boxBounds;
     OrthographicCamera cam;
 
     public InputHandler(SwipeBallGame game, OrthographicCamera cam){
@@ -62,7 +61,6 @@ public class InputHandler implements InputProcessor{
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        boxBounds = new Rectangle(Box.getXPosition() - 0.1f, Box.getYPosition() - 0.1f, 10/100f * 2, 10/100f * 2);
         if(GameRenderer.firstGame && !fromMenu){
             GameRenderer.firstGame = false;
         }
@@ -78,7 +76,7 @@ public class InputHandler implements InputProcessor{
                 delta.x = 0;
             }
 
-            if (!Box.isFlying() && boxBounds.contains(new Vector2(firstTouch.x / 100f + cam.position.x - cam.viewportWidth/2f, (Gdx.graphics.getHeight() - firstTouch.y) / 100f))) {
+            if (!Box.isFlying()) {
                 Box.setVelocity(delta);
             }
             if (Box.getYPosition() < 0) {

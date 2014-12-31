@@ -46,7 +46,6 @@ public class GameWorld{
                     isTimeForCameraTranslate = true;
 	        		nextBlock++;
 	        		Box.updateScore();
-                    toDestroyBlock = true;
 	        }
             else{
                 Box.stop();
@@ -99,12 +98,12 @@ public class GameWorld{
 		}
 
         if(toDestroyBlock){
-            world.getBodies(bodies);
+            /*world.getBodies(bodies);
             for(Body body : bodies){
                 if(body.getUserData().equals("block" + destroyBlock)){
                     world.destroyBody(body);
                 }
-            }
+            }*/
            GenerateLevel.blocks.removeIndex(0);
            destroyBlock++;
            toDestroyBlock = false;
@@ -136,8 +135,10 @@ public class GameWorld{
             if(camera.position.x <  location) {
                 camera.translate(10 / PPM, 0);
                 camera.update();
+
             }else{
                 isTimeForCameraTranslate = false;
+                toDestroyBlock = true;
             }
         }
 }
