@@ -32,16 +32,17 @@ public class LoadScreen implements Screen{
 	}
 	
 	public void draw(){
-		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
-        batch.draw(AssetLoader.splashScreen, 0, 0);
+        batch.draw(AssetLoader.splashScreen, Gdx.graphics.getWidth() / 2 - AssetLoader.splashScreen.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - AssetLoader.splashScreen.getHeight() / 2);
         batch.end();
 
 	}
 	public void update(){
-		if(time > 1){
+		if(time > 5){
 			game.setScreen(new MenuScreen(game));
 		}
 	}

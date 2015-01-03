@@ -82,7 +82,7 @@ public class MenuScreen implements Screen, InputProcessor{
 		shapeRenderer.end();
 
         batch.begin();
-        font.draw(batch, "SwipeBox v1.0", 10, GameConstants.GAME_HEIGHT - 10);
+        font.draw(batch, "SwipeBox v1.0", 10, Gdx.graphics.getHeight() - 10);
         font.draw(batch, "Play", playBounds.getX() + playBounds.getWidth() / 2 - font.getBounds("Play").width / 2, playBounds.getY() + playBounds.getHeight() / 2 + font.getBounds("Play").height / 2);
         font.draw(batch, "About", aboutBounds.getX() + aboutBounds.getWidth() / 2 - font.getBounds("About").width / 2, aboutBounds.getY() + aboutBounds.getHeight() / 2 + font.getBounds("About").height / 2);
         batch.end();

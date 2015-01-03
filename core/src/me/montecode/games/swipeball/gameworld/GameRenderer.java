@@ -43,7 +43,8 @@ public class GameRenderer{
 		h = Gdx.graphics.getHeight();
 		w = Gdx.graphics.getWidth();
         b2dcam = cam;
-        parameter.size = 30;
+        //parameter.size = 30;
+        parameter.size = (int)(30 * Gdx.graphics.getDensity()/1.3);
         font = generator.generateFont(parameter);
         generator.dispose();
         box = new Box(world);
@@ -75,6 +76,7 @@ public class GameRenderer{
 
         //Draw box
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        Gdx.gl20.glLineWidth(0.4f);
         shapeRenderer.setColor(1, 1, 1, 1);
         shapeRenderer.rect(Box.getXPosition() - 0.1f, Box.getYPosition() - 0.1f, 10/100f * 2, 10/100f * 2);
         shapeRenderer.end();
@@ -100,7 +102,7 @@ public class GameRenderer{
         if(Box.getYPosition() < 0){
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(244/256f, 119/256f, 124/256f, 0.3f);
-            shapeRenderer.rect(b2dcam.position.x - 150/PPM, (h/2 - 200) / PPM, 300 / PPM, 400 / PPM);
+            shapeRenderer.rect(b2dcam.position.x - 150/PPM, (GameConstants.GAME_HEIGHT/2 - 200) / PPM, 300 / PPM, 400 / PPM);
             shapeRenderer.end();
 
             batch.begin();
@@ -125,7 +127,7 @@ public class GameRenderer{
 	}
 	
 	public static void resetCameraPosition(){
-		b2dcam.position.set(GameConstants.GAME_WIDTH / PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);
+		b2dcam.position.set(GameConstants.GAME_WIDTH/ PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);
 		b2dcam.update();
 	}
 	

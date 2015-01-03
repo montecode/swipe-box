@@ -14,6 +14,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameScreen implements Screen{
@@ -30,11 +31,14 @@ public class GameScreen implements Screen{
 
 		gameWorld = new GameWorld(world);
 
-		b2dcam = new OrthographicCamera(GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
+        //b2dcam = new OrthographicCamera(Gdx.graphics.getWidth() / PPM, Gdx.graphics.getHeight() / PPM);
+        //b2dcam.position.set(Gdx.graphics.getWidth() / PPM / 2, Gdx.graphics.getHeight() / PPM / 2, 0);
+        b2dcam = new OrthographicCamera(GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
         b2dcam.position.set(GameConstants.GAME_WIDTH / PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);
         b2dcam.update();
         renderer = new GameRenderer(world, b2dcam);
-        viewport = new ExtendViewport(800 / PPM, 460 / PPM, b2dcam);
+        //viewport = new ExtendViewport(800 / PPM, 460 / PPM, b2dcam);
+        viewport = new StretchViewport(800 / PPM, 460 / PPM, b2dcam);
         inputHandler = new InputHandler(game, b2dcam);
         Gdx.input.setInputProcessor(inputHandler);
 	}
