@@ -1,7 +1,6 @@
 package me.montecode.games.swipeball.screens;
 
 import me.montecode.games.swipeball.SwipeBallGame;
-import me.montecode.games.swipeball.utils.GameConstants;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MenuScreen implements Screen, InputProcessor{
@@ -28,7 +26,6 @@ public class MenuScreen implements Screen, InputProcessor{
 	static Vector3 touchPoint;
 	static SwipeBallGame game;
     static BitmapFont font;
-    Viewport viewport;
 
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Dimbo Regular.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -47,7 +44,7 @@ public class MenuScreen implements Screen, InputProcessor{
         shapeRenderer.setProjectionMatrix(cam.combined);
         Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(this);
-        viewport = new ExtendViewport(800, 460, cam);
+
 	}
 	
 	public static void update(){
@@ -103,7 +100,6 @@ public class MenuScreen implements Screen, InputProcessor{
 
 	@Override
 	public void resize(int width, int height) {
-		viewport.update(width, height);
 		
 	}
 

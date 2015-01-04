@@ -132,13 +132,15 @@ public class GameWorld{
 		}
 
         public void translateCamera(OrthographicCamera camera, float location){
-            if(camera.position.x <  location) {
+            if(camera.position.x <  location && Box.getYPosition() > 0) {
                 camera.translate(10 / PPM, 0);
                 camera.update();
 
             }else{
                 isTimeForCameraTranslate = false;
-                toDestroyBlock = true;
+                if(Box.getYPosition() > 0) {
+                    toDestroyBlock = true;
+                }
             }
         }
 }
