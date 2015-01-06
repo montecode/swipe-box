@@ -23,9 +23,7 @@ public class GameScreen implements Screen{
 
 	public GameScreen(SwipeBallGame game){
 		world = new World(GameConstants.WORLD_GRAVITY, true);
-
 		gameWorld = new GameWorld(world);
-
         b2dcam = new OrthographicCamera(GameConstants.GAME_WIDTH / PPM, GameConstants.GAME_HEIGHT / PPM);
         b2dcam.position.set(GameConstants.GAME_WIDTH / PPM / 2, GameConstants.GAME_HEIGHT / PPM / 2, 0);
         b2dcam.update();

@@ -5,6 +5,7 @@ import me.montecode.games.swipeball.gameobjects.Box;
 import me.montecode.games.swipeball.helpers.AssetLoader;
 import me.montecode.games.swipeball.levels.GenerateLevel;
 import me.montecode.games.swipeball.utils.GameConstants;
+import me.montecode.games.swipeball.utils.GameVars;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -24,7 +25,7 @@ import static me.montecode.games.swipeball.utils.GameConstants.PPM;
 public class GameRenderer{
 	
 	SpriteBatch batch;
-	ShapeRenderer shapeRenderer;
+	ShapeRenderer shapeRenderer, shapeRenderer2;
 	Box2DDebugRenderer debugRenderer;
 	static OrthographicCamera b2dcam;
 	Array<Body> bodies = new Array<Body>();
@@ -32,13 +33,14 @@ public class GameRenderer{
 	float h, w;
 	World world;
 	Box box;
-    BitmapFont font;
+    public static BitmapFont font;
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Dimbo Regular.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 	public GameRenderer(World world, OrthographicCamera cam){
 		this.world = world;
 		shapeRenderer = new ShapeRenderer();
+        shapeRenderer2 = new ShapeRenderer();
 		batch  = new SpriteBatch();
 		h = Gdx.graphics.getHeight();
 		w = Gdx.graphics.getWidth();
@@ -105,15 +107,25 @@ public class GameRenderer{
             shapeRenderer.rect(b2dcam.position.x - 150/PPM, (GameConstants.GAME_HEIGHT/2 - 200) / PPM, 300 / PPM, 400 / PPM);
             shapeRenderer.end();
 
+            shapeRenderer2.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer2.setColor(238/256f, 28/256f, 26/256f, 1);
+            shapeRenderer2.rect(GameVars.submitScoreBounds.getX(), GameVars.h - GameVars.submitScoreBounds.getY() - GameVars.submitScoreBounds.getHeight(),
+                    GameVars.submitScoreBounds.getWidth(), GameVars.submitScoreBounds.getHeight());
+            shapeRenderer2.rect(GameVars.restartBounds.getX(), GameVars.h - GameVars.restartBounds.getY() - GameVars.restartBounds.getHeight(), GameVars.restartBounds.getWidth(),
+                    GameVars.restartBounds.getHeight());
+            shapeRenderer2.end();
+
             batch.begin();
             String s1 = "Your Score: " + Box.getScore();
             String s2 = "High Score: " + Box.getHighScore();
             String s3 = "Game Over";
-            String s4 = "Tap to restart";
-            font.draw(batch, s1, w / 2 - font.getBounds(s1).width/2, h / 2);
-            font.draw(batch, s2, w / 2 - font.getBounds(s2).width/2, h * 2/3);
-            font.draw(batch, s3, w / 2 - font.getBounds(s3).width/2, h - 100);
-            font.draw(batch, s4, w / 2 - font.getBounds(s4).width/2, h / 3);
+            String s4 = "Restart";
+            String s5 = "Submit Score";
+            font.draw(batch, s1, w / 2 - font.getBounds(s1).width/2, h / 2 + font.getBounds(s1).height/2);
+            font.draw(batch, s2, w / 2 - font.getBounds(s2).width/2, h * 2/3 + font.getBounds(s2).height/2);
+            font.draw(batch, s3, w / 2 - font.getBounds(s3).width/2, h - 100 + font.getBounds(s3).height/2);
+            font.draw(batch, s4, w / 2 - font.getBounds(s4).width/2, h / 3 + font.getBounds(s4).height/2);
+            font.draw(batch, s5, w / 2 - font.getBounds(s5).width/2, h / 5 + font.getBounds(s5).height/2);
             batch.end();
         }
 

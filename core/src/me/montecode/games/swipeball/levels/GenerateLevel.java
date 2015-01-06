@@ -18,8 +18,8 @@ public class GenerateLevel {
 
 	static World world;
 	public static Array <Block> blocks;
-	static float lastPosition = 0;
-	static int blockNumber = 1;
+	static float lastPosition;
+	static int blockNumber;
     static Vector2 position;
 	static float width, height;
 	
@@ -27,6 +27,8 @@ public class GenerateLevel {
 		this.world = world;
         blocks = new Array();
         position = new Vector2();
+        blockNumber = 1;
+        lastPosition = 0;
 	}
 	
 	public static void setUp(){

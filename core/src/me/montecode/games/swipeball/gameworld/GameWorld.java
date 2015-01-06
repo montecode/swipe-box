@@ -21,18 +21,18 @@ public class GameWorld{
 	
 	float PPM = GameConstants.PPM;
     GenerateLevel generateLevel;
-	int lastJumpNumber = 0;
-	boolean isFirstTime = true;
-	boolean isTimeForGenerate = false;
-    boolean isTimeForCameraTranslate = false;
-    boolean toDestroyBlock = false;
-	static int nextBlock = 1;
+	int lastJumpNumber;
+	boolean isFirstTime;
+	boolean isTimeForGenerate;
+    boolean isTimeForCameraTranslate;
+    boolean toDestroyBlock;
+	static int nextBlock;
 	LevelReader lvlReader;
 	World world;
     Body a, b;
 	Enums.states currentState;
-    int destroyBlock = 0;
-    Array <Body> bodies = new Array<Body>();
+    int destroyBlock;
+    //Array <Body> bodies = new Array<Body>();
 
 	ContactListener listener = new ContactListener(){
 		@Override
@@ -82,6 +82,13 @@ public class GameWorld{
 		lvlReader = new LevelReader(world);
 		world.setContactListener(listener);
         generateLevel = new GenerateLevel(world);
+        lastJumpNumber = 0;
+        isFirstTime = true;
+        isTimeForGenerate = false;
+        isTimeForCameraTranslate = false;
+        toDestroyBlock = false;
+        nextBlock = 1;
+        destroyBlock = 0;
 	}
 	
 	

@@ -18,13 +18,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Box extends Actor{
 	
 	static Body box;
-	static int jumpNumber = 0;
-	static Preferences prefs;
+	static int jumpNumber;
+	public static Preferences prefs;
 
 	public Box(World world){
 		BodyDef bd = new BodyDef();
 		FixtureDef fd = new FixtureDef();
-		
+		jumpNumber = 0;
+
 		bd.type = BodyType.DynamicBody;
 		
 		bd.position.set(new Vector2(60 / PPM, 100 / PPM));

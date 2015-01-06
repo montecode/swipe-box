@@ -8,6 +8,7 @@ import me.montecode.games.swipeball.gameworld.GameWorld;
 import me.montecode.games.swipeball.levels.GenerateLevel;
 import me.montecode.games.swipeball.levels.LevelReader;
 import me.montecode.games.swipeball.screens.MenuScreen;
+import me.montecode.games.swipeball.utils.GameVars;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -80,14 +81,24 @@ public class InputHandler implements InputProcessor{
                 Box.setVelocity(delta);
             }
             if (Box.getYPosition() < 0) {
-                LevelReader.clearLevel();
-                GenerateLevel.reset();
-                GameWorld.reset();
-                GenerateLevel.setUp();
-                GenerateLevel.generate();
-                GameRenderer.resetCameraPosition();
-                Box.checkHighScore();
-                Box.resetScore();
+                if(GameVars.restartBounds.contains(screenX, screenY)) {
+                    if(Box.getScore() > 1 && Box.prefs.getBoolean("showRate")) {
+                        SwipeBallGame.googleServices.rateGame();
+                    }
+                    LevelReader.clearLevel();
+                    GenerateLevel.reset();
+                    GameWorld.reset();
+                    GenerateLevel.setUp();
+                    GenerateLevel.generate();
+                    GameRenderer.resetCameraPosition();
+
+                    Box.checkHighScore();
+                    Box.resetScore();
+                }
+                else if(GameVars.submitScoreBounds.contains(screenX, screenY)){
+                    SwipeBallGame.googleServices.signIn();
+                    SwipeBallGame.googleServices.submitScore(Box.getScore());
+                }
 
             }
         }

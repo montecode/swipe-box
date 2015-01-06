@@ -42,7 +42,7 @@ public class LoadScreen implements Screen{
 
 	}
 	public void update(){
-		if(time > 5){
+		if(time > 2){
 			game.setScreen(new MenuScreen(game));
 		}
 	}

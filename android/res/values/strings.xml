@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">swipe-box</string>
+    <string name="app_name">SwipeBox</string>
     <string name="banner_ad_unit_id">ca-app-pub-8314659346500868/2586726833</string>
+    <string name="app_id">350238858194</string>
+    <string name="leaderboard_id">CgkI0rfz3pgKEAIQAA</string>
 </resources>
