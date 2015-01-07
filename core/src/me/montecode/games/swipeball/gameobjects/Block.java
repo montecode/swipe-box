@@ -49,4 +49,5 @@ public class Block{
     public float getWidth(){
         return width;
     }
+    public float getHeight() { return height;}
 }

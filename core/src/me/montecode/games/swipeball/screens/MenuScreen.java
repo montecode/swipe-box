@@ -1,6 +1,7 @@
 package me.montecode.games.swipeball.screens;
 
 import me.montecode.games.swipeball.SwipeBallGame;
+import me.montecode.games.swipeball.helpers.AssetLoader;
 import me.montecode.games.swipeball.playservices.DesktopGoogleServices;
 
 import com.badlogic.gdx.Gdx;
@@ -22,12 +23,13 @@ public class MenuScreen implements Screen, InputProcessor{
 	static SpriteBatch batch;
 	static OrthographicCamera cam;
 	static ShapeRenderer shapeRenderer;
-	static Rectangle playBounds;
-    static Rectangle highScores;
-	static Rectangle aboutBounds;
+	static Rectangle playBounds, highScores, aboutBounds, soundBounds;
 	static Vector3 touchPoint;
 	static SwipeBallGame game;
     static BitmapFont font;
+    public static Boolean isSoundOn = true;
+    float pos1, pos2;
+
 
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Dimbo Regular.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -42,11 +44,15 @@ public class MenuScreen implements Screen, InputProcessor{
 		playBounds = new Rectangle(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() * 3/5f - 37.5f, 200, 75);
         aboutBounds = new Rectangle(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() * 1/5f - 37.5f, 200, 75);
         highScores = new Rectangle(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() * 2/5f - 37.5f, 200, 75);
+        soundBounds = new Rectangle(10, 10, 100, 100);
         touchPoint = new Vector3();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
         Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(this);
+
+        pos1 = 0;
+        pos2 = Gdx.graphics.getWidth();
 
 	}
 	
@@ -66,6 +72,13 @@ public class MenuScreen implements Screen, InputProcessor{
                 SwipeBallGame.googleServices.signIn();
                 SwipeBallGame.googleServices.showScores();
             }
+            else if(soundBounds.contains(touchPoint.x, touchPoint.y)){
+                if(isSoundOn) {
+                    isSoundOn = false;
+                }else{
+                    isSoundOn = true;
+                }
+            }
         }
 	}
 	
@@ -75,10 +88,26 @@ public class MenuScreen implements Screen, InputProcessor{
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Draw red background
+        /*
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(238/256f, 28/256f, 26/256f, 1);
         shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         shapeRenderer.end();
+        */
+
+        batch.begin();
+
+        batch.draw(AssetLoader.menuBg, pos1, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(AssetLoader.menuBg, pos2, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        pos1--;
+        pos2--;
+        if(pos1 <= - Gdx.graphics.getWidth()){
+            pos1 = Gdx.graphics.getWidth();
+        }
+        if(pos2 <= - Gdx.graphics.getWidth()){
+            pos2 = Gdx.graphics.getWidth();
+        }
+        batch.end();
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(244/256f, 119/256f, 124/256f, 1);
@@ -88,6 +117,11 @@ public class MenuScreen implements Screen, InputProcessor{
 		shapeRenderer.end();
 
         batch.begin();
+        if(isSoundOn) {
+            batch.draw(AssetLoader.soundon, 10, 10, 100, 100);
+        }else{
+            batch.draw(AssetLoader.soundoff, 10, 10, 100, 100);
+        }
         font.draw(batch, "SwipeBox v1.0", 10, Gdx.graphics.getHeight() - 10);
         font.draw(batch, "Play", playBounds.getX() + playBounds.getWidth() / 2 - font.getBounds("Play").width / 2, playBounds.getY() + playBounds.getHeight() / 2 + font.getBounds("Play").height / 2);
         font.draw(batch, "About", aboutBounds.getX() + aboutBounds.getWidth() / 2 - font.getBounds("About").width / 2, aboutBounds.getY() + aboutBounds.getHeight() / 2 + font.getBounds("About").height / 2);

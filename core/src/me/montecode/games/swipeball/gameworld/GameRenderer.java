@@ -30,7 +30,7 @@ public class GameRenderer{
 	static OrthographicCamera b2dcam;
 	Array<Body> bodies = new Array<Body>();
     public static boolean firstGame = true;
-	float h, w;
+	float h, w, posy1, posy2;
 	World world;
 	Box box;
     public static BitmapFont font;
@@ -44,6 +44,8 @@ public class GameRenderer{
 		batch  = new SpriteBatch();
 		h = Gdx.graphics.getHeight();
 		w = Gdx.graphics.getWidth();
+        posy1 = 0;
+        posy2 = Gdx.graphics.getHeight();
         b2dcam = cam;
         //parameter.size = 30;
         parameter.size = (int)(30 * Gdx.graphics.getDensity()/1.3);
@@ -65,10 +67,24 @@ public class GameRenderer{
         shapeRenderer.setProjectionMatrix(b2dcam.combined);
 
         //Draw red background
+        /*
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(238/256f, 28/256f, 26/256f, 1);
         shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeRenderer.end();
+        shapeRenderer.end();*/
+
+        batch.begin();
+        batch.draw(AssetLoader.background, 0, posy1, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(AssetLoader.background, 0, posy2, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        posy1--;
+        posy2--;
+        if(posy1 < -Gdx.graphics.getHeight()){
+            posy1 = 0;
+        }
+        if(posy2 < 0){
+            posy2 = Gdx.graphics.getHeight();
+        }
+        batch.end();
 
         //Draw score
 		batch.begin();
@@ -84,7 +100,7 @@ public class GameRenderer{
         shapeRenderer.end();
         //Draw blocks
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(244/256f, 119/256f, 124/256f, 1);
+        shapeRenderer.setColor(1, 1, 1, 1);
         for(Block block : GenerateLevel.blocks){
 
             if(block.getPosition().x == 0){
@@ -94,7 +110,7 @@ public class GameRenderer{
 
             }else {
                 float w = block.getWidth();
-                float h = 60 / 100f;
+                float h = block.getHeight();
                 shapeRenderer.box(block.getPosition().x - w, block.getPosition().y, 0, w * 2, h, 0);
             }
 

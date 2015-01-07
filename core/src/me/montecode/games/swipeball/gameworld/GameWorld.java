@@ -1,11 +1,15 @@
 package me.montecode.games.swipeball.gameworld;
 
 import me.montecode.games.swipeball.gameobjects.Box;
+import me.montecode.games.swipeball.helpers.AssetLoader;
 import me.montecode.games.swipeball.levels.GenerateLevel;
 import me.montecode.games.swipeball.levels.LevelReader;
+import me.montecode.games.swipeball.screens.MenuScreen;
 import me.montecode.games.swipeball.utils.Enums;
 import me.montecode.games.swipeball.utils.GameConstants;
 import me.montecode.games.swipeball.utils.GameVars;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -20,10 +24,12 @@ import com.badlogic.gdx.utils.Array;
 public class GameWorld{
 	
 	float PPM = GameConstants.PPM;
+    static int i;
     GenerateLevel generateLevel;
 	int lastJumpNumber;
 	boolean isFirstTime;
 	boolean isTimeForGenerate;
+    static public boolean playSound, playMusic;
     boolean isTimeForCameraTranslate;
     boolean toDestroyBlock;
 	static int nextBlock;
@@ -44,6 +50,10 @@ public class GameWorld{
                     Box.stop();
 	        		isTimeForGenerate = true;
                     isTimeForCameraTranslate = true;
+                    if(MenuScreen.isSoundOn) {
+                        playSound = true;
+                    }
+
 	        		nextBlock++;
 	        		Box.updateScore();
 	        }
@@ -87,8 +97,13 @@ public class GameWorld{
         isTimeForGenerate = false;
         isTimeForCameraTranslate = false;
         toDestroyBlock = false;
+        playSound = false;
+        if(MenuScreen.isSoundOn) {
+            playMusic = true;
+        }
         nextBlock = 1;
         destroyBlock = 0;
+        i = 1;
 	}
 	
 	
@@ -116,6 +131,25 @@ public class GameWorld{
            toDestroyBlock = false;
         }
 
+        if(Box.getYPosition() < 0 && i == 1){
+            playSound = true;
+            i++;
+        }
+
+        if(playSound){
+            if(Box.getYPosition() < 0){
+                AssetLoader.gameOverSound.play();
+            }
+            else {
+                AssetLoader.jumpSound.play();
+            }
+            playSound = false;
+        }
+
+        if(playMusic && !AssetLoader.gameMusic.isPlaying()){
+            AssetLoader.gameMusic.play();
+        }
+
 		switch(currentState){
 			case PLAY:
 				lvlReader.clearLevel();
@@ -135,6 +169,7 @@ public class GameWorld{
 		public static void reset(){
 			
 			nextBlock = 1;
+            i = 1;
 			
 		}
 
@@ -149,6 +184,9 @@ public class GameWorld{
                     toDestroyBlock = true;
                 }
             }
+        }
+        public static void stopMusic(){
+            AssetLoader.gameMusic.stop();
         }
 }
 

@@ -45,17 +45,19 @@ public class GenerateLevel {
         if(Box.getScore() > 15){
             position.x = rand.nextFloat() * 350 + width + 50 + lastPosition;
             width = rand.nextFloat() * 50 + 20;
+            height = rand.nextFloat() * 100 + 60;
         }else if(Box.getScore() > 30){
             position.x = rand.nextFloat() * 350 + width + 50 + lastPosition;
             width = rand.nextFloat() * 25 + 20;
+            height = rand.nextFloat() * 100 + 60;
         }
         else{
             position.x = width + lastPosition + 50 + rand.nextFloat() * 200;
             width = rand.nextFloat() * 80 + 40;
+            height = 60;
         }
         position.x += width;
 		position.y = 0;
-		height = 60;
 		blocks.add(new Block(world, position, width, height, blockNumber));
 		lastPosition = position.x;
 		blockNumber++;

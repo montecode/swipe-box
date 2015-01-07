@@ -40,6 +40,8 @@ public class InputHandler implements InputProcessor{
 	public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) {
             game.setScreen(new MenuScreen(game));
+            GameWorld.playMusic = false;
+            GameWorld.stopMusic();
         }
 
         return true;
