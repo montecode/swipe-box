@@ -87,6 +87,10 @@ public class InputHandler implements InputProcessor{
                     if(Box.getScore() > 1 && Box.prefs.getBoolean("showRate")) {
                         SwipeBallGame.googleServices.rateGame();
                     }
+
+                    Box.checkHighScore();
+                    Box.resetScore();
+
                     LevelReader.clearLevel();
                     GenerateLevel.reset();
                     GameWorld.reset();
@@ -94,8 +98,7 @@ public class InputHandler implements InputProcessor{
                     GenerateLevel.generate();
                     GameRenderer.resetCameraPosition();
 
-                    Box.checkHighScore();
-                    Box.resetScore();
+
                 }
                 else if(GameVars.submitScoreBounds.contains(screenX, screenY)){
                     SwipeBallGame.googleServices.signIn();

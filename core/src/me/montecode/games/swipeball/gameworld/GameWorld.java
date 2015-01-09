@@ -35,18 +35,39 @@ public class GameWorld{
 	static int nextBlock;
 	LevelReader lvlReader;
 	World world;
+    int generateNum;
     Body a, b;
 	Enums.states currentState;
     int destroyBlock;
-    //Array <Body> bodies = new Array<Body>();
+    int k;
+    Array <Body> bodies = new Array<Body>();
 
 	ContactListener listener = new ContactListener(){
 		@Override
 		public void beginContact(Contact contact) {
 			a = contact.getFixtureA().getBody();
 	        b = contact.getFixtureB().getBody();
-	        if((a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("box")) ||
-		        	(a.getUserData().equals("box") && b.getUserData().equals("block" + nextBlock))){
+
+
+
+            if((a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("box")) ||
+               (a.getUserData().equals("box") && b.getUserData().equals("block" + nextBlock))){
+                generateNum = 1;
+            }
+            if((a.getUserData().equals("block" + (nextBlock + 1)) && b.getUserData().equals("box")) ||
+                    (a.getUserData().equals("box") && b.getUserData().equals("block" + (nextBlock + 1)))){
+                if(Box.getScore() < 30) {
+                    generateNum = 2;
+                }else {
+                    generateNum = 1;
+                }
+                nextBlock++;
+            }
+
+	        if(     (a.getUserData().equals("block" + nextBlock) && b.getUserData().equals("box")) ||
+                    (a.getUserData().equals("block" + (nextBlock + 1)) && b.getUserData().equals("box")) ||
+		        	(a.getUserData().equals("box") && b.getUserData().equals("block" + nextBlock)) ||
+                    (a.getUserData().equals("box") && b.getUserData().equals("block" + (nextBlock + 1)))){
                     Box.stop();
 	        		isTimeForGenerate = true;
                     isTimeForCameraTranslate = true;
@@ -104,6 +125,7 @@ public class GameWorld{
         nextBlock = 1;
         destroyBlock = 0;
         i = 1;
+        k = 1;
 	}
 	
 	
@@ -113,35 +135,43 @@ public class GameWorld{
             translateCamera(cam, Box.getXPosition() + cam.viewportWidth / 2 - 50 / PPM);
         }
 		if(isTimeForGenerate){
-			GenerateLevel.generate();
+
+            for(int i = 0; i < generateNum; i++){
+                GenerateLevel.generate();
+            }
+
 			isTimeForGenerate = false;
 			isFirstTime = false;
 			lastJumpNumber = Box.getScore();
 		}
 
         if(toDestroyBlock){
-            /*world.getBodies(bodies);
+            world.getBodies(bodies);
             for(Body body : bodies){
-                if(body.getUserData().equals("block" + destroyBlock)){
+                if(body.getPosition().x < (cam.position.x - cam.viewportWidth / 2f) - 200){
                     world.destroyBody(body);
                 }
-            }*/
+            }
            GenerateLevel.blocks.removeIndex(0);
+           if(generateNum == 2){
+               GenerateLevel.blocks.removeIndex(0);
+           }
+
            destroyBlock++;
            toDestroyBlock = false;
         }
 
-        if(Box.getYPosition() < 0 && i == 1){
+        if(Box.getYPosition() < 0 && i == 1 && MenuScreen.isSoundOn){
             playSound = true;
             i++;
         }
 
         if(playSound){
             if(Box.getYPosition() < 0){
-                AssetLoader.gameOverSound.play();
+                AssetLoader.gameOverSound.play(0.2f);
             }
             else {
-                AssetLoader.jumpSound.play();
+                AssetLoader.jumpSound.play(0.2f);
             }
             playSound = false;
         }

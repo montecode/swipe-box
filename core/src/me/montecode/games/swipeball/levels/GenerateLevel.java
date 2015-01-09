@@ -38,6 +38,7 @@ public class GenerateLevel {
         Block block = new Block(world, new Vector2(0, 0), 100, 60, 0);
         width = 100;
 		blocks.add(block);
+        generate();
 	}
 	
 	public static void generate(){
