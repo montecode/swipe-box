@@ -7,13 +7,14 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class AssetLoader {
 
-    public static Texture splashScreen, hint, background, soundon, soundoff, menuBg;
+    public static Texture splashScreen, hint, hint2, background, soundon, soundoff, menuBg;
     public static Music gameMusic;
     public static Sound jumpSound, gameOverSound;
 
     public static void load(){
         splashScreen = new Texture(Gdx.files.internal("splash.png"));
         hint = new Texture(Gdx.files.internal("hint.png"));
+        hint2 = new Texture(Gdx.files.internal("hint2.png"));
         background = new Texture(Gdx.files.internal("background-01.png"));
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/space_battle.mp3"));
         jumpSound = Gdx.audio.newSound(Gdx.files.internal("sounds/jump.mp3"));
@@ -33,6 +34,7 @@ public class AssetLoader {
         soundon.dispose();
         soundoff.dispose();
         menuBg.dispose();
+        hint2.dispose();
     }
 
 }

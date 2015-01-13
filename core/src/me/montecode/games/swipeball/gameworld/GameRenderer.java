@@ -66,12 +66,7 @@ public class GameRenderer{
 
         shapeRenderer.setProjectionMatrix(b2dcam.combined);
 
-        //Draw red background
-        /*
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(238/256f, 28/256f, 26/256f, 1);
-        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeRenderer.end();*/
+        //Draw background
 
         batch.begin();
         batch.draw(AssetLoader.background, 0, posy1, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -93,8 +88,8 @@ public class GameRenderer{
 		batch.end();
 
         //Draw box
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        Gdx.gl20.glLineWidth(0.4f);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //Gdx.gl20.glLineWidth(0.4f);
         shapeRenderer.setColor(1, 1, 1, 1);
         shapeRenderer.rect(Box.getXPosition() - 0.1f, Box.getYPosition() - 0.1f, 10/100f * 2, 10/100f * 2);
         shapeRenderer.end();
@@ -147,8 +142,14 @@ public class GameRenderer{
 
         if(firstGame){
             batch.begin();
-            batch.draw(AssetLoader.hint, Gdx.graphics.getWidth() / 2 - AssetLoader.hint.getWidth() / 2,
-                    Gdx.graphics.getHeight()  / 2 - AssetLoader.hint.getHeight()  / 2);
+            if(Gdx.graphics.getWidth() > 800){
+                batch.draw(AssetLoader.hint2, Gdx.graphics.getWidth() / 2 - AssetLoader.hint2.getWidth() / 2,
+                        Gdx.graphics.getHeight()  / 2 - AssetLoader.hint2.getHeight()  / 2);
+            }
+            else {
+                batch.draw(AssetLoader.hint, Gdx.graphics.getWidth() / 2 - AssetLoader.hint.getWidth() / 2,
+                        Gdx.graphics.getHeight() / 2 - AssetLoader.hint.getHeight() / 2);
+            }
             batch.end();
         }
 

@@ -74,7 +74,7 @@ public class InputHandler implements InputProcessor{
             delta.limit(200);
             delta.scl(1/10f);
 
-            if (delta.angle() < 270) {
+            if (delta.angle() < 280) {
                 delta.y = 0;
                 delta.x = 0;
             }
